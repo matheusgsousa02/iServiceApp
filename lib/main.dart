@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
-        Locale('pt', 'BR'), // Adicione os idiomas suportados
+        Locale('pt', 'BR'),
       ],
       title: 'iService',
       theme: ThemeData(),
