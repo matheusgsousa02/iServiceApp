@@ -1,27 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:iservice_application/Views/Client_Profile/usuario_dados.dart';
 
-class PerfilUsuario extends StatefulWidget {
-  const PerfilUsuario({Key? key}) : super(key: key);
+import 'package:iservice_application/Views/Establishment_MyEstablishment/catalog.dart';
+
+class MyEstablishment extends StatefulWidget {
+  const MyEstablishment({Key? key}) : super(key: key);
 
   @override
-  State<PerfilUsuario> createState() => _PerfilUsuarioState();
+  State<MyEstablishment> createState() => _MyEstablishmentState();
 }
 
-class _PerfilUsuarioState extends State<PerfilUsuario> {
+class _MyEstablishmentState extends State<MyEstablishment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
+        title: Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 55.0),
+            child: Text(
+              "Meu Estabelecimento",
+              style: TextStyle(
+                color: Colors.grey[700],
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back_ios_new,
             size: 20,
             color: Colors.black,
@@ -66,7 +79,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
               ),
               const SizedBox(height: 8),
               const Text(
-                'Isabele',
+                'Nome da Loja',
                 style: TextStyle(
                   fontSize: 36,
                   fontWeight: FontWeight.bold,
@@ -85,7 +98,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20),
                   child: Text(
-                    'MEUS DADOS',
+                    'DADOS DA LOJA',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.grey[600],
@@ -106,8 +119,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const UsuarioDados()),
+                      MaterialPageRoute(builder: (context) => const Catalog()),
                     );
                   },
                   child: Row(
@@ -120,7 +132,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                       const SizedBox(width: 18),
                       const Expanded(
                         child: Text(
-                          "Informações pessoais",
+                          "Catálogo",
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
@@ -150,8 +162,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const UsuarioDados()),
+                      MaterialPageRoute(builder: (context) => const Catalog()),
                     );
                   },
                   child: Row(
@@ -164,7 +175,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                       const SizedBox(width: 17),
                       const Expanded(
                         child: Text(
-                          "Dados de contato",
+                          "Horários",
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
@@ -191,13 +202,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                       borderRadius: BorderRadius.circular(0),
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const UsuarioDados()),
-                    );
-                  },
+                  onPressed: () {},
                   child: Row(
                     children: [
                       Image.asset(
@@ -236,7 +241,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20),
                   child: Text(
-                    'NOTIFICAÇÕES',
+                    'DESEMPENHO',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.grey[600],
@@ -254,13 +259,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                       borderRadius: BorderRadius.circular(0),
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const UsuarioDados()),
-                    );
-                  },
+                  onPressed: () {},
                   child: Row(
                     children: [
                       Image.asset(
@@ -271,7 +270,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                       const SizedBox(width: 18),
                       const Expanded(
                         child: Text(
-                          "Central de notificações",
+                          "Feedbacks",
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
@@ -284,152 +283,6 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                         color: Colors.black,
                         size: 20,
                       )
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Text(
-                    'CONFIGURAÇÕES',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    padding: const EdgeInsets.all(20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const UsuarioDados()),
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/configuracao.png',
-                        width: 25,
-                        height: 25,
-                      ),
-                      const SizedBox(width: 18),
-                      const Expanded(
-                        child: Text(
-                          "Configurações de acesso",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.black,
-                        size: 20,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 6),
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    padding: const EdgeInsets.all(20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const UsuarioDados()),
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/politica-de-privacidade.png',
-                        width: 29,
-                        height: 29,
-                      ),
-                      const SizedBox(width: 17),
-                      const Expanded(
-                        child: Text(
-                          "Política de privacidade",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.black,
-                        size: 20,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    padding: const EdgeInsets.all(20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const UsuarioDados()),
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/sair.png',
-                        width: 25,
-                        height: 25,
-                      ),
-                      const SizedBox(width: 18),
-                      const Expanded(
-                        child: Text(
-                          "Sair",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),

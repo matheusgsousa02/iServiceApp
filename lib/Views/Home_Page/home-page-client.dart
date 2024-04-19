@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:iservice_application/Models/Servicos.dart';
+import 'package:iservice_application/Views/Establishment_Services/schedules.dart';
 import '../../Models/User/UserInfo.dart';
+import '../main-page-establishment.dart';
 
-class HomePage extends StatefulWidget {
+class HomePageClient extends StatefulWidget {
   final UserInfo? userInfo;
 
-  const HomePage({this.userInfo, Key? key}) : super(key: key);
+  const HomePageClient({this.userInfo, Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePageClient> createState() => _HomePageClientState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageClientState extends State<HomePageClient> {
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> categoria = [
@@ -20,6 +22,7 @@ class _HomePageState extends State<HomePage> {
       {"icon": "assets/pincel.png", "text": "pintura"},
       {"icon": "assets/mais.png", "text": "mais"},
     ];
+
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(top: 40),
@@ -375,6 +378,10 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+      /*bottomNavigationBar: BottomNavigationMenu(
+        currentIndex: _currentIndex,
+        onTap: _onTap,
+      ),*/
     );
   }
 }

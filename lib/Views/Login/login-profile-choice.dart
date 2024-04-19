@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:iservice_application/Views/Client_Auth/register_page.dart';
-import 'package:iservice_application/Views/Establishment_Auth/register_page.dart';
+import 'package:iservice_application/Views/Client_Auth/register-page.dart';
+import 'package:iservice_application/Views/Establishment_Auth/register-page.dart';
 
 class LoginProfileChoice extends StatelessWidget {
   const LoginProfileChoice({super.key});

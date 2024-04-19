@@ -32,6 +32,9 @@ dependencies:
     sdk: flutter
   http: ^0.13.3
   intl: ^0.18.1
+  image_picker: ^0.8.4+4
+  image_cropper: ^4.0.1
+  fl_chart: ^0.67.0
   
   flutter_localizations:
     sdk: flutter
@@ -112,4 +115,5 @@ flutter:
   - assets/sair.png
   - assets/contato.png
   - assets/sign-up-iservice.png
+  - assets/testeCorte.jpeg
 

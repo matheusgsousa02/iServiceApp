@@ -43,14 +43,13 @@ class RegisterService {
         dateOfBirth: userInfo.clientProfile!.dateOfBirth,
         phone: userInfo.clientProfile!.phone,
         addressID: 0,
-        excluded: true,
       );
     }
     ;
 
     print('Request Data: ${jsonEncode(register.toJson())}');
 
-    var url = Uri.parse('http://10.0.2.2:5120/v1/register');
+    var url = Uri.parse('http://10.0.2.2:5120/Auth/register');
     var response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},

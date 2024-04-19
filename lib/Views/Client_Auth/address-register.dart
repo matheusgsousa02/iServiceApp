@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iservice_application/Models/User/UserInfo.dart';
 import 'package:iservice_application/Services/Auth/register.dart';
-import 'package:iservice_application/Views/Home_Page/home-page.dart';
+import 'package:iservice_application/Views/Home_Page/home-page-client.dart';
 import '../../Services/Auth/cep.dart';
 import '../../Services/Utils/textFieldUtils.dart';
 import '../../Models/User/Address.dart';
@@ -188,7 +188,8 @@ class _AddressRegisterState extends State<AddressRegister> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => HomePage(userInfo: userInfo),
+                        builder: (context) =>
+                            HomePageClient(userInfo: userInfo),
                       ),
                     );
                   });

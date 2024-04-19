@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iservice_application/Models/User/UserInfo.dart';
-import 'package:iservice_application/Views/Home_Page/home-page.dart';
+import 'package:iservice_application/Views/Home_Page/home-page-client.dart';
 import 'package:iservice_application/Views/Login/redefinir-senha-page.dart';
 import '../../Services/Auth/login.dart';
 import '../../Services/Utils/validationsUtils.dart';
@@ -145,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
 
               // Esqueceu a senha?
-              const SizedBox(
+              /*const SizedBox(
                 height: 20,
               ),
 
@@ -169,8 +169,10 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
+              ),*/
+              SizedBox(
+                height: 20,
               ),
-
               if (mensagemErro.isNotEmpty)
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 10),
@@ -214,7 +216,7 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const HomePage(),
+                            builder: (context) => const HomePageClient(),
                           ),
                         );
                       } else if (userInfo.userRole?.userRoleID == 2) {
@@ -222,7 +224,7 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const HomePage(),
+                            builder: (context) => const HomePageClient(),
                           ),
                         );
                       } else {

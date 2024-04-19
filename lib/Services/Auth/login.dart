@@ -7,7 +7,7 @@ class LoginService {
   Future<UserInfo> login(String email, String password) async {
     Login login = Login(email: email, password: password);
 
-    var url = Uri.parse('http://10.0.2.2:5120/v1/login');
+    var url = Uri.parse('http://10.0.2.2:5120/Auth/login');
     var response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},

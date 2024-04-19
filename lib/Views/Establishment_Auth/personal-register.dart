@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iservice_application/Models/User/EstablishmentProfile.dart';
 import 'package:iservice_application/Services/Utils/textFieldUtils.dart';
-import 'package:iservice_application/Views/Client_Auth/address_register.dart';
+import 'package:iservice_application/Views/Client_Auth/address-register.dart';
 import '../../Models/User/UserInfo.dart';
 
 class PersonalRegisterEstablishment extends StatefulWidget {

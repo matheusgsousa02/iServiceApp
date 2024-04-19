@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iservice_application/Models/User/UserInfo.dart';
 import 'package:iservice_application/Services/Auth/pre_register.dart';
 import 'package:iservice_application/Services/Utils/textFieldUtils.dart';
-import 'package:iservice_application/Views/Client_Auth/personal_register.dart';
+import 'package:iservice_application/Views/Client_Auth/personal-register.dart';
 import '../../Services/Utils/validationsUtils.dart';
 
 class RegisterClientPage extends StatefulWidget {

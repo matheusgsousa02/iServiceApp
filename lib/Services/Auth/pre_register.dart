@@ -10,7 +10,7 @@ class PreRegisterService {
         userRoleID: userRoleID, email: email, name: name, password: password);
     print('Request Data: ${jsonEncode(preRegister.toJson())}');
 
-    var url = Uri.parse('http://10.0.2.2:5120/v1/preregister');
+    var url = Uri.parse('http://10.0.2.2:5120/Auth/preregister');
     var response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},

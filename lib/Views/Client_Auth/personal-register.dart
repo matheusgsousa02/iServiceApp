@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:iservice_application/Models/User/ClientProfile.dart';
 import 'package:iservice_application/Models/User/UserInfo.dart';
-import 'package:iservice_application/Views/Client_Auth/address_register.dart';
+import 'package:iservice_application/Views/Client_Auth/address-register.dart';
 
 class PersonalRegisterClient extends StatefulWidget {
   final UserInfo userInfo;
