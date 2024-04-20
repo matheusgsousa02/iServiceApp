@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:iservice_application/Services/Utils/DurationSelector.dart';
 import 'package:iservice_application/Services/Utils/textFieldUtils.dart';
 import 'package:iservice_application/Views/Home_Page/home-page-client.dart';
 
@@ -28,6 +29,9 @@ class _RegisterServicesState extends State<RegisterServices> {
   bool filledFields = false;
   File? _image;
   TimeOfDay? _selectedTime = TimeOfDay.now();
+  List<int> durationsInMinutes = List.generate(20, (index) => (index + 1) * 15);
+
+  int selectedDuration = 15;
 
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? pickedTime = await showTimePicker(
@@ -201,53 +205,7 @@ class _RegisterServicesState extends State<RegisterServices> {
                         ),
                       ),
                     ),
-                    TextFormField(
-                      textAlign: TextAlign.start,
-                      decoration: InputDecoration(
-                        hintText: 'Duração estimada do serviço',
-                        hintStyle: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w100,
-                        ),
-                        prefixIcon: ShaderMask(
-                          shaderCallback: (bounds) => const LinearGradient(
-                            colors: [Color(0xFF2864ff), Color(0xFF2864ff)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ).createShader(bounds),
-                          child: Icon(
-                            Icons.access_time_outlined,
-                            color: Color(0xFF2864ff),
-                          ),
-                        ),
-                        enabledBorder: const UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.grey, width: 1.5),
-                        ),
-                        focusedBorder: const UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.blue, width: 2.5),
-                        ),
-                      ),
-                      onTap: () {
-                        _selectTime(context);
-                      },
-                      controller: TextEditingController(
-                        text: _selectedTime != null
-                            ? _selectedTime!.format(context)
-                            : '',
-                      ),
-                      readOnly: true,
-                      validator: (value) {
-                        if (_selectedTime == null ||
-                            value == null ||
-                            value.isEmpty) {
-                          return 'Por favor, selecione o tempo de duração estimado.';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {},
-                    ),
+                    DurationSelector(),
                     const SizedBox(height: 10),
                     Utils.buildTextField(
                       controller: serviceNameController,
