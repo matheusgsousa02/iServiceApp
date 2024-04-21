@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:iservice_application/Views/main-page-establishment.dart';
+import 'Views/Login/login-page.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       ],
       title: 'iService',
       theme: ThemeData(),
-      home: MainPageClient(),
+      home: LoginPage(),
     );
   }
 }

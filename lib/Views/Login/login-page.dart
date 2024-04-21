@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:iservice_application/Models/User/UserInfo.dart';
+import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Views/Home_Page/home-page-client.dart';
+import 'package:iservice_application/Views/main-page-establishment.dart';
 import '../../Services/Utils/validationsUtils.dart';
 import '../../Models/Auth/Login.dart';
 import '../../Services/auth_services.dart';
@@ -213,15 +214,16 @@ class _LoginPageState extends State<LoginPage> {
                     AuthServices()
                         .login(requestLogin)
                         .then((UserInfo userInfo) {
-                      if (userInfo.userRole?.userRoleID == 1) {
+                      print('oi');
+                      if (userInfo.userRole.userRoleId == 1) {
                         print('1');
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const HomePageClient(),
+                            builder: (context) => const MainPageEstablishment(),
                           ),
                         );
-                      } else if (userInfo.userRole?.userRoleID == 2) {
+                      } else if (userInfo.userRole.userRoleId == 2) {
                         print('2');
                         Navigator.push(
                           context,

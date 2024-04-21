@@ -2,7 +2,7 @@ import 'dart:typed_data'; // Para usar Uint8List
 
 class ClientProfileModel {
   int userId;
-  int addressId;
+  int? addressId;
   String cpf;
   DateTime dateOfBirth;
   String phone;
@@ -10,7 +10,7 @@ class ClientProfileModel {
 
   ClientProfileModel({
     required this.userId,
-    required this.addressId,
+    this.addressId,
     required this.cpf,
     required this.dateOfBirth,
     required this.phone,
@@ -20,7 +20,7 @@ class ClientProfileModel {
   factory ClientProfileModel.fromJson(Map<String, dynamic> json) =>
       ClientProfileModel(
         userId: json['userId'] as int,
-        addressId: json['addressId'] as int,
+        addressId: json['addressId'] as int?,
         cpf: json['cpf'] as String,
         dateOfBirth: DateTime.parse(json['dateOfBirth'] as String),
         phone: json['phone'] as String,

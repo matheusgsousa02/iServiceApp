@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:iservice_application/Models/User/UserInfo.dart';
-import 'package:iservice_application/Services/Auth/pre_register.dart';
+import 'package:iservice_application/Models/Auth/PreRegister.dart';
+import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Services/Utils/textFieldUtils.dart';
+import 'package:iservice_application/Services/auth_services.dart';
 import 'package:iservice_application/Views/Client_Auth/personal-register.dart';
 import '../../Services/Utils/validationsUtils.dart';
 
@@ -243,13 +244,14 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
                     print('Mensagem de erro definida para: $mensagemErro');
                   } else {
                     try {
-                      PreRegisterService()
-                          .preRegister(
-                        2,
-                        emailController.text,
-                        nameController.text,
-                        passwordController.text,
-                      )
+                      PreRegister request = PreRegister(
+                          userRoleID: 2,
+                          email: emailController.text,
+                          name: nameController.text,
+                          password: passwordController.text);
+
+                      await AuthServices()
+                          .preRegister(request)
                           .then((UserInfo userInfo) {
                         Navigator.pushReplacement(
                           context,

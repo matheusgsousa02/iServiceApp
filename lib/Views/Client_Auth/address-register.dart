@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:iservice_application/Models/User/UserInfo.dart';
-import 'package:iservice_application/Services/Auth/register.dart';
-import 'package:iservice_application/Views/Home_Page/home-page-client.dart';
+import 'package:iservice_application/Models/Auth/Register.dart';
+import 'package:iservice_application/Models/Request/address_model.dart';
+import 'package:iservice_application/Models/Request/client_profile_model.dart';
+import 'package:iservice_application/Models/Request/establishment_profile_model.dart';
+import 'package:iservice_application/Models/user_info.dart';
+import 'package:iservice_application/Services/auth_services.dart';
 import 'package:iservice_application/Views/main-page-client.dart';
 import '../../Services/Auth/cep.dart';
 import '../../Services/Utils/textFieldUtils.dart';
-import '../../Models/User/Address.dart';
 
 class AddressRegister extends StatefulWidget {
   final UserInfo userInfo;
+  final ClientProfileModel? clientProfileModel;
+  final EstablishmentProfileModel? establishmentProfileModel;
 
-  const AddressRegister({required this.userInfo, Key? key}) : super(key: key);
+  const AddressRegister(
+      {required this.userInfo,
+      this.clientProfileModel,
+      this.establishmentProfileModel,
+      Key? key})
+      : super(key: key);
 
   @override
   State<AddressRegister> createState() => _AddressRegisterState();
@@ -173,19 +182,23 @@ class _AddressRegisterState extends State<AddressRegister> {
             child: MaterialButton(
               onPressed: () async {
                 try {
-                  widget.userInfo.address = Address(
-                    street: streetController.text,
-                    number: numController.text,
-                    additionalInfo: compController.text,
-                    city: cityController.text,
-                    state: stateController.text,
-                    country: 'BR',
-                    postalCode: cepController.text,
-                  );
-
-                  RegisterService()
-                      .register(widget.userInfo)
-                      .then((UserInfo userInfo) {
+                  Register request = Register(
+                      userId: widget.userInfo.user.userId,
+                      address: AddressModel(
+                        street: streetController.text,
+                        number: numController.text,
+                        additionalInfo: compController.text,
+                        city: cityController.text,
+                        state: stateController.text,
+                        country: 'BR',
+                        postalCode: cepController.text,
+                      ));
+                  if (widget.userInfo.user.userRoleId == 1) {
+                    request.establishment = widget.establishmentProfileModel;
+                  } else if (widget.userInfo.user.userRoleId == 2) {
+                    request.client = widget.clientProfileModel;
+                  }
+                  AuthServices().register(request).then((UserInfo userInfo) {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

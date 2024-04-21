@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:iservice_application/Models/Request/establishment_profile_model.dart';
 import 'package:iservice_application/Models/User/EstablishmentProfile.dart';
+import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Services/Utils/textFieldUtils.dart';
 import 'package:iservice_application/Views/Client_Auth/address-register.dart';
-import '../../Models/User/UserInfo.dart';
 
 class PersonalRegisterEstablishment extends StatefulWidget {
   final UserInfo userInfo;
@@ -260,8 +261,10 @@ class _PersonalRegisterEstablishmentState
                       String commercialEmail = commercialEmailController.text;
                       String description = descriptionController.text;
 
-                      widget.userInfo.establishmentProfile =
-                          EstablishmentProfile(
+                      EstablishmentProfileModel request =
+                          EstablishmentProfileModel(
+                              userId: widget.userInfo.user.userId,
+                              establishmentCategoryId: 1,
                               cnpj: cnpj,
                               commercialName: commercialName,
                               description: description,
@@ -271,8 +274,9 @@ class _PersonalRegisterEstablishmentState
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              AddressRegister(userInfo: widget.userInfo),
+                          builder: (context) => AddressRegister(
+                              userInfo: widget.userInfo,
+                              establishmentProfileModel: request),
                         ),
                       );
                     } else {

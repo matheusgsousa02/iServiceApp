@@ -8,7 +8,7 @@ class Address {
   String country;
   String postalCode;
   DateTime creationDate;
-  DateTime lastUpdateDate;
+  DateTime? lastUpdateDate;
 
   Address({
     required this.addressId,
@@ -20,7 +20,7 @@ class Address {
     required this.country,
     required this.postalCode,
     required this.creationDate,
-    required this.lastUpdateDate,
+    this.lastUpdateDate,
   });
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
@@ -33,7 +33,9 @@ class Address {
         country: json['country'] as String,
         postalCode: json['postalCode'] as String,
         creationDate: DateTime.parse(json['creationDate'] as String),
-        lastUpdateDate: DateTime.parse(json['lastUpdateDate'] as String),
+        lastUpdateDate: json['lastUpdateDate'] == null
+            ? null
+            : DateTime.parse(json['lastUpdateDate'] as String),
       );
 
   Map<String, dynamic> toJson() => {
@@ -46,6 +48,6 @@ class Address {
         'country': country,
         'postalCode': postalCode,
         'creationDate': creationDate.toIso8601String(),
-        'lastUpdateDate': lastUpdateDate.toIso8601String(),
+        'lastUpdateDate': lastUpdateDate?.toIso8601String(),
       };
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:iservice_application/Models/Request/client_profile_model.dart';
 import 'package:iservice_application/Models/User/ClientProfile.dart';
-import 'package:iservice_application/Models/User/UserInfo.dart';
+import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Views/Client_Auth/address-register.dart';
 
 class PersonalRegisterClient extends StatefulWidget {
@@ -224,7 +225,8 @@ class _PersonalRegisterClientState extends State<PersonalRegisterClient> {
 
                       String phone = celController.text;
 
-                      widget.userInfo.clientProfile = ClientProfile(
+                      ClientProfileModel request = ClientProfileModel(
+                        userId: widget.userInfo.user.userId,
                         cpf: cpf,
                         dateOfBirth: DateFormat("dd/MM/yyyy")
                             .parse(birthController.text),
@@ -234,8 +236,9 @@ class _PersonalRegisterClientState extends State<PersonalRegisterClient> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              AddressRegister(userInfo: widget.userInfo),
+                          builder: (context) => AddressRegister(
+                              userInfo: widget.userInfo,
+                              clientProfileModel: request),
                         ),
                       );
                     } else {

@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:iservice_application/Models/User/UserInfo.dart';
+import 'package:iservice_application/Models/user_info.dart';
 import '../../Models/Auth/PreRegister.dart';
 import '../../Models/Auth/Register.dart';
 import '../../Models/Auth/Login.dart';
@@ -60,8 +60,10 @@ class AuthServices {
 
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body);
-      print(jsonResponse);
-      return UserInfo.fromJson(jsonResponse);
+      print(response.body);
+      var userRequest = UserInfo.fromJson(jsonResponse);
+      print(userRequest);
+      return userRequest;
     } else {
       var jsonResponse = jsonDecode(response.body);
       var errorMessage = jsonResponse['message'] ?? 'Erro desconhecido';
