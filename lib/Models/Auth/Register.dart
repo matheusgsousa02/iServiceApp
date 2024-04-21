@@ -1,12 +1,12 @@
-import '../User/EstablishmentProfile.dart';
-import '../User/ClientProfile.dart';
-import '../User/Address.dart';
+import '../Request/establishment_profile_model.dart';
+import '../Request/client_profile_model.dart';
+import '../Request/address_model.dart';
 
 class Register {
   int userId;
-  EstablishmentProfile? establishment;
-  ClientProfile? client;
-  Address address;
+  EstablishmentProfileModel? establishment;
+  ClientProfileModel? client;
+  AddressModel address;
 
   Register({
     required this.userId,
@@ -17,15 +17,15 @@ class Register {
 
   Register.client({
     required this.userId,
-    this.client,
+    required this.client,
     required this.address,
-  });
+  }) : establishment = null;
 
   Register.establishment({
     required this.userId,
-    this.establishment,
+    required this.establishment,
     required this.address,
-  });
+  }) : client = null;
 
   Map<String, dynamic> toJson() {
     return {
@@ -38,14 +38,15 @@ class Register {
 
   factory Register.fromJson(Map<String, dynamic> json) {
     return Register(
-      userId: json['userId'],
+      userId: json['userId'] as int,
       establishment: json['establishment'] != null
-          ? EstablishmentProfile.fromJson(json['establishment'])
+          ? EstablishmentProfileModel.fromJson(
+              json['establishment'] as Map<String, dynamic>)
           : null,
       client: json['client'] != null
-          ? ClientProfile.fromJson(json['client'])
+          ? ClientProfileModel.fromJson(json['client'] as Map<String, dynamic>)
           : null,
-      address: Address.fromJson(json['address']),
+      address: AddressModel.fromJson(json['address'] as Map<String, dynamic>),
     );
   }
 }

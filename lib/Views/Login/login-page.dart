@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:iservice_application/Models/User/UserInfo.dart';
 import 'package:iservice_application/Views/Home_Page/home-page-client.dart';
-import 'package:iservice_application/Views/Login/redefinir-senha-page.dart';
-import '../../Services/Auth/login.dart';
 import '../../Services/Utils/validationsUtils.dart';
+import '../../Models/Auth/Login.dart';
+import '../../Services/auth_services.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -207,9 +207,11 @@ class _LoginPageState extends State<LoginPage> {
                     setState(() {
                       mensagemErro = '';
                     });
-
-                    LoginService()
-                        .login(emailController.text, passwordController.text)
+                    Login requestLogin = Login(
+                        email: emailController.text,
+                        password: passwordController.text);
+                    AuthServices()
+                        .login(requestLogin)
                         .then((UserInfo userInfo) {
                       if (userInfo.userRole?.userRoleID == 1) {
                         print('1');

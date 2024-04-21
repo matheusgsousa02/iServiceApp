@@ -244,6 +244,7 @@ class _RegisterEstablishmentPageState extends State<RegisterEstablishmentPage> {
                     print('Mensagem de erro definida para: $mensagemErro');
                   } else {
                     try {
+                      
                       PreRegisterService()
                           .preRegister(
                         1,
