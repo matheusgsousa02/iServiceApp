@@ -214,7 +214,6 @@ class _LoginPageState extends State<LoginPage> {
                     AuthServices()
                         .login(requestLogin)
                         .then((UserInfo userInfo) {
-                      print('oi');
                       if (userInfo.userRole.userRoleId == 1) {
                         print('1');
                         Navigator.push(
@@ -235,7 +234,7 @@ class _LoginPageState extends State<LoginPage> {
                         messageError('404 not found');
                       }
                     }).catchError((e) {
-                      messageError(e.toString().split('Exception: ')[1]);
+                      messageError(e.toString());
                     });
                   }
                 },

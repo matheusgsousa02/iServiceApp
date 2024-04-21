@@ -1,4 +1,5 @@
-import 'dart:typed_data'; // Para usar o Uint8List
+import 'dart:typed_data';
+import 'dart:convert';
 
 class EstablishmentProfile {
   int establishmentProfileId;
@@ -42,7 +43,7 @@ class EstablishmentProfile {
         commercialEmail: json['commercialEmail'] as String,
         photo: json['photo'] == null
             ? null
-            : Uint8List.fromList(List<int>.from(json['photo'])),
+            : Uint8List.fromList(base64.decode(json['photo'])),
         creationDate: DateTime.parse(json['creationDate'] as String),
         lastUpdateDate: json['lastUpdateDate'] == null
             ? null
