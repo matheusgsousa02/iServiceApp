@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:iservice_application/Models/Servicos.dart';
 import 'package:iservice_application/Views/Establishment_Services/schedules.dart';
 import '../../Models/User/UserInfo.dart';
-import '../main-page-establishment.dart';
 
 class HomePageClient extends StatefulWidget {
   final UserInfo? userInfo;
@@ -49,17 +48,22 @@ class _HomePageClientState extends State<HomePageClient> {
               ),
             ),
             const SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  width: 380,
-                  child: InkWell(
-                    onTap: () {
-                      // Adicione a lógica desejada quando o contêiner for tocado
-                    },
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Schedules()),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
                     child: Container(
-                      padding: const EdgeInsets.all(10),
+                      width: 380, // Defina a largura do Container
+                      padding: const EdgeInsets.all(25),
                       decoration: BoxDecoration(
                         color: const Color(0xFF2864ff),
                         borderRadius: BorderRadius.circular(10),
@@ -72,46 +76,91 @@ class _HomePageClientState extends State<HomePageClient> {
                         ],
                       ),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.add,
-                              color: Color(0xFF2864ff),
-                              size: 35,
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(
+                                  Icons.add,
+                                  color: Color(0xFF2864ff),
+                                  size: 35,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: const [
+                                  SizedBox(height: 9),
+                                  Text(
+                                    "Próximo Agendamento",
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  SizedBox(height: 5),
+                                ],
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 30),
-                          const Text(
-                            "Agendamentos",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          const Text(
-                            "Data 11/11/1999",
-                            style: TextStyle(
-                              color: Colors.white54,
-                            ),
+                          SizedBox(height: 30),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(Icons.calendar_month,
+                                      color: Colors.white54),
+                                  SizedBox(width: 5),
+                                  Text(
+                                    "00/00/0000",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.white54,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(width: 100),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Icon(Icons.access_time_filled,
+                                      color: Colors.white54),
+                                  SizedBox(width: 5),
+                                  Text(
+                                    "00:00",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.white54,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
                   ),
-                ),
+                )
               ],
             ),
 
             //containers com serviços
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
             SizedBox(
               height: 70,
               child: ListView.builder(

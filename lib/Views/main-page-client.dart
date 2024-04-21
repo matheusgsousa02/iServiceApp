@@ -3,8 +3,13 @@ import 'package:iservice_application/Views/Client_Profile/client-profile.dart';
 import 'package:iservice_application/Views/Client_Search/client-search.dart';
 import 'package:iservice_application/Views/Establishment_Services/schedules.dart';
 import 'package:iservice_application/Views/Home_Page/home-page-client.dart';
+import '../../Models/User/UserInfo.dart';
 
 class MainPageClient extends StatefulWidget {
+  final UserInfo? userInfo;
+
+  const MainPageClient({this.userInfo, Key? key}) : super(key: key);
+
   @override
   _MainPageClientState createState() => _MainPageClientState();
 }
@@ -33,8 +38,8 @@ class _MainPageClientState extends State<MainPageClient> {
         decoration: BoxDecoration(
           border: Border(
             top: BorderSide(
-              color: Colors.black26, // Cor da linha cinza claro
-              width: 0.3, // Largura da linha
+              color: Colors.black26,
+              width: 0.3,
             ),
           ),
         ),

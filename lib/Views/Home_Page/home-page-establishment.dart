@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iservice_application/Services/Utils/barChart.dart';
+import 'package:iservice_application/Views/Establishment_MyEstablishment/catalog.dart';
+import 'package:iservice_application/Views/Establishment_Services/schedules.dart';
 import '../../Models/User/UserInfo.dart';
 
 class HomePageEstablishment extends StatefulWidget {
@@ -48,7 +50,10 @@ class _HomePageEstablishmentState extends State<HomePageEstablishment> {
                   height: 175,
                   child: InkWell(
                     onTap: () {
-                      // Adicione a lógica desejada quando o contêiner for tocado
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Schedules()),
+                      );
                     },
                     child: Container(
                       padding: const EdgeInsets.all(15),
@@ -98,7 +103,10 @@ class _HomePageEstablishmentState extends State<HomePageEstablishment> {
                   height: 175,
                   child: InkWell(
                     onTap: () {
-                      // Adicione a lógica desejada quando o contêiner for tocado
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Catalog()),
+                      );
                     },
                     child: Container(
                       padding: const EdgeInsets.all(15),
@@ -132,7 +140,7 @@ class _HomePageEstablishmentState extends State<HomePageEstablishment> {
                           ),
                           const SizedBox(height: 5),
                           const Text(
-                            "Produtos",
+                            "Serviços",
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.white,

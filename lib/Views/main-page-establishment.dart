@@ -3,8 +3,13 @@ import 'package:iservice_application/Views/Establishment_MyEstablishment/my-esta
 import 'package:iservice_application/Views/Establishment_Profile/establishment-profile.dart';
 import 'package:iservice_application/Views/Establishment_Services/schedules.dart';
 import 'package:iservice_application/Views/Home_Page/home-page-establishment.dart';
+import '../../Models/User/UserInfo.dart';
 
 class MainPageEstablishment extends StatefulWidget {
+  final UserInfo? userInfo;
+
+  const MainPageEstablishment({this.userInfo, Key? key}) : super(key: key);
+
   @override
   _MainPageEstablishmentState createState() => _MainPageEstablishmentState();
 }

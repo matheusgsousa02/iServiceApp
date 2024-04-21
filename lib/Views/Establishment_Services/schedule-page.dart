@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:iservice_application/Views/Client_Auth/address-register.dart';
-import 'package:iservice_application/Views/Establishment_Services/teste.dart';
 
 class SchedulePage extends StatefulWidget {
   const SchedulePage({Key? key}) : super(key: key);

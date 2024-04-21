@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       ],
       title: 'iService',
       theme: ThemeData(),
-      home: MainPageEstablishment(),
+      home: MainPageClient(),
     );
   }
 }

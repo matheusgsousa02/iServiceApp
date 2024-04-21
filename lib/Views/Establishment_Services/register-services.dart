@@ -205,6 +205,7 @@ class _RegisterServicesState extends State<RegisterServices> {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 10),
                     DurationSelector(),
                     const SizedBox(height: 10),
                     Utils.buildTextField(
