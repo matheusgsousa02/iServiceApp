@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iservice_application/Models/Servicos.dart';
+import 'package:iservice_application/Models/servicos.dart';
 import 'package:iservice_application/Views/Establishment_Services/schedules.dart';
 import '../../Models/User/UserInfo.dart';
 import '../main-page-establishment.dart';

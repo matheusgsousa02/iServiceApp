@@ -4,14 +4,14 @@ import '../../Models/Auth/Login.dart';
 import '../../Models/User/UserInfo.dart';
 
 class LoginService {
-  Future<UserInfo> login(String email, String password) async {
-    Login login = Login(email: email, password: password);
+  Future<UserInfo> login(Login request) async {
+    print('Request Data: ${jsonEncode(request.toJson())}');
 
     var url = Uri.parse('http://10.0.2.2:5120/Auth/login');
     var response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(login.toJson()),
+      body: jsonEncode(request.toJson()),
     );
 
     if (response.statusCode == 200) {
