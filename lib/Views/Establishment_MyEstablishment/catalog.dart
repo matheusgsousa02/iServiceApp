@@ -28,7 +28,6 @@ class _CatalogState extends State<Catalog> {
         .getByEstablishmentProfileId(
             widget.userInfo.establishmentProfile!.establishmentProfileId)
         .then((List<Service> services) {
-      print('oie');
       setState(() {
         _servicesFuture = Future.value(services);
       });

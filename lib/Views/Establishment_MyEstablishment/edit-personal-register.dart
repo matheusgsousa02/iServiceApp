@@ -5,19 +5,20 @@ import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Services/Utils/textFieldUtils.dart';
 import 'package:iservice_application/Views/Client_Auth/address-register.dart';
 
-class PersonalRegisterEstablishment extends StatefulWidget {
+class EditPersonalRegisterEstablishment extends StatefulWidget {
   final UserInfo userInfo;
 
-  const PersonalRegisterEstablishment({required this.userInfo, Key? key})
+  const EditPersonalRegisterEstablishment({required this.userInfo, Key? key})
       : super(key: key);
 
   @override
-  State<PersonalRegisterEstablishment> createState() =>
-      _PersonalRegisterEstablishmentState();
+  State<EditPersonalRegisterEstablishment> createState() =>
+      _EditPersonalRegisterEstablishmentState();
 }
 
-class _PersonalRegisterEstablishmentState
-    extends State<PersonalRegisterEstablishment> {
+class _EditPersonalRegisterEstablishmentState
+    extends State<EditPersonalRegisterEstablishment> {
+  TextEditingController commercialNameController = TextEditingController();
   TextEditingController cnpjController = TextEditingController();
   TextEditingController establishmntNameController = TextEditingController();
   TextEditingController commercialContactController = TextEditingController();
@@ -39,6 +40,7 @@ class _PersonalRegisterEstablishmentState
   void initState() {
     super.initState();
 
+    commercialNameController.addListener(atualizarEstadoCampos);
     cnpjController.addListener(atualizarEstadoCampos);
     establishmntNameController.addListener(atualizarEstadoCampos);
     commercialContactController.addListener(atualizarEstadoCampos);
@@ -56,7 +58,8 @@ class _PersonalRegisterEstablishmentState
 
   void atualizarEstadoCampos() {
     setState(() {
-      filledFields = cnpjController.text.isNotEmpty &&
+      filledFields = commercialNameController.text.isNotEmpty &&
+          cnpjController.text.isNotEmpty &&
           establishmntNameController.text.isNotEmpty &&
           commercialContactController.text.isNotEmpty &&
           commercialEmailController.text.isNotEmpty &&
@@ -73,13 +76,25 @@ class _PersonalRegisterEstablishmentState
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
+        title: Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 55.0),
+            child: Text(
+              "Perfil",
+              style: TextStyle(
+                color: Colors.grey[700],
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back_ios_new,
             size: 20,
             color: Colors.black,
@@ -88,35 +103,28 @@ class _PersonalRegisterEstablishmentState
       ),
       body: SingleChildScrollView(
         child: SizedBox(
-          height: MediaQuery.of(context).size.height,
+          height: 500,
           width: double.infinity,
           child: Padding(
             padding: const EdgeInsets.only(left: 18.0, right: 18.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                ),
                 const Expanded(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Informações Adicionais",
-                          style: TextStyle(
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
                       SizedBox(
                         height: 10,
                       ),
                     ],
                   ),
+                ),
+                Utils.buildTextField(
+                  controller: commercialNameController,
+                  hintText: 'Nome',
+                  prefixIcon: Icons.account_circle_rounded,
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 Utils.buildTextField(
                   controller: cnpjController,
@@ -289,16 +297,13 @@ class _PersonalRegisterEstablishmentState
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: const Text(
-                    "Avançar",
+                    "Atualizar",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
                       fontSize: 20,
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 200,
                 ),
               ],
             ),

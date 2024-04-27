@@ -12,8 +12,10 @@ import '../../Models/Request/service_model.dart';
 
 class RegisterServices extends StatefulWidget {
   final UserInfo userInfo;
+  int? selectedDuration;
 
-  const RegisterServices({required this.userInfo, Key? key}) : super(key: key);
+  RegisterServices({required this.userInfo, this.selectedDuration, Key? key})
+      : super(key: key);
 
   @override
   State<RegisterServices> createState() => _RegisterServicesState();
@@ -33,7 +35,6 @@ class _RegisterServicesState extends State<RegisterServices> {
   List<int> durationsInMinutes = List.generate(20, (index) => (index + 1) * 15);
   ServiceServices serviceServices = ServiceServices();
   List<ServiceCategory> serviceCategories = [];
-  int selectedDuration = 15;
 
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? pickedTime = await showTimePicker(
@@ -224,7 +225,13 @@ class _RegisterServicesState extends State<RegisterServices> {
                     const SizedBox(height: 10),
 
                     //Duração
-                    DurationSelector(),
+                    DurationSelector(
+                      onDurationSelected: (duration) {
+                        setState(() {
+                          widget.selectedDuration = duration;
+                        });
+                      },
+                    ),
 
                     const SizedBox(height: 10),
                     Utils.buildTextField(
@@ -375,9 +382,9 @@ class _RegisterServicesState extends State<RegisterServices> {
                               name: serviceNameController.text,
                               description: descriptionController.text,
                               price: doubleValue,
-                              estimatedDuration: selectedDuration!,
+                              estimatedDuration: widget.selectedDuration!,
                             );
-
+                            print(widget.selectedDuration);
                             await ServiceServices()
                                 .addService(request)
                                 .then((Service service) {

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class DurationSelector extends StatefulWidget {
+  final Function(int) onDurationSelected; // Adicione este parâmetro
+
+  const DurationSelector({required this.onDurationSelected, Key? key})
+      : super(key: key);
   @override
   _DurationSelectorState createState() => _DurationSelectorState();
 }
@@ -70,6 +74,7 @@ class _DurationSelectorState extends State<DurationSelector> {
             setState(() {
               selectedDuration = newValue;
             });
+            widget.onDurationSelected(selectedDuration);
           }
         },
         style: const TextStyle(

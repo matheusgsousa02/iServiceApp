@@ -9,7 +9,6 @@ import 'package:iservice_application/Models/user_role.dart';
 import 'package:iservice_application/Views/Login/login-home-page.dart';
 import 'package:iservice_application/Views/Login/login-profile-choice.dart';
 import 'package:iservice_application/Views/main-page-establishment.dart';
-import 'Views/Establishment_MyEstablishment/register-time.dart';
 import 'Views/Login/login-page.dart';
 
 void main() async {
@@ -33,8 +32,8 @@ class MyApp extends StatelessWidget {
         UserRole(userRoleId: 1, name: 'isa', creationDate: DateTime.now());
 
     EstablishmentProfile establishmentProfile = EstablishmentProfile(
-        establishmentProfileId: 1,
-        userId: 1,
+        establishmentProfileId: 2,
+        userId: 2,
         cnpj: '111111111111',
         commercialName: 'isinha',
         establishmentCategoryId: 1,
@@ -82,7 +81,7 @@ class MyApp extends StatelessWidget {
       ],
       title: 'iService',
       theme: ThemeData(),
-      home: RegisterTime(userInfo: userInfo),
+      home: MainPageEstablishment(userInfo: userInfo),
     );
   }
 }

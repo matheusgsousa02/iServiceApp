@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Views/Establishment_MyEstablishment/catalog.dart';
+import 'package:iservice_application/Views/Establishment_MyEstablishment/edit-address.dart';
+import 'package:iservice_application/Views/Establishment_MyEstablishment/edit-personal-register.dart';
+import 'package:iservice_application/Views/Establishment_MyEstablishment/register-time.dart';
 
 class MyEstablishment extends StatefulWidget {
   final UserInfo userInfo;
@@ -109,7 +112,7 @@ class _MyEstablishmentState extends State<MyEstablishment> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8),
+                padding: const EdgeInsets.only(left: 5),
                 child: TextButton(
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.white,
@@ -129,11 +132,11 @@ class _MyEstablishmentState extends State<MyEstablishment> {
                   child: Row(
                     children: [
                       Image.asset(
-                        'assets/usuario.png',
-                        width: 25,
-                        height: 25,
+                        'assets/lista.png',
+                        width: 29,
+                        height: 29,
                       ),
-                      const SizedBox(width: 18),
+                      const SizedBox(width: 16),
                       const Expanded(
                         child: Text(
                           "Catálogo",
@@ -168,13 +171,13 @@ class _MyEstablishmentState extends State<MyEstablishment> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              Catalog(userInfo: widget.userInfo)),
+                              RegisterTime(userInfo: widget.userInfo)),
                     );
                   },
                   child: Row(
                     children: [
                       Image.asset(
-                        'assets/contato.png',
+                        'assets/horarios.png',
                         width: 27,
                         height: 27,
                       ),
@@ -208,7 +211,14 @@ class _MyEstablishmentState extends State<MyEstablishment> {
                       borderRadius: BorderRadius.circular(0),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              EditAddress(userInfo: widget.userInfo)),
+                    );
+                  },
                   child: Row(
                     children: [
                       Image.asset(
@@ -277,6 +287,71 @@ class _MyEstablishmentState extends State<MyEstablishment> {
                       const Expanded(
                         child: Text(
                           "Feedbacks",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      const Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.black,
+                        size: 20,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Text(
+                    'CONFIGURAÇÕES',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    padding: const EdgeInsets.all(20),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              EditPersonalRegisterEstablishment(
+                                  userInfo: widget.userInfo)),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/usuario.png',
+                        width: 25,
+                        height: 25,
+                      ),
+                      const SizedBox(width: 18),
+                      const Expanded(
+                        child: Text(
+                          "Perfil",
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,

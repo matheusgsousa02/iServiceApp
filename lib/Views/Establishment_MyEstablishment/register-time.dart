@@ -245,9 +245,11 @@ class _DiasDaSemanaState extends State<DiasDaSemana> {
             child: Container(
               padding: EdgeInsets.all(11),
               decoration: BoxDecoration(
-                color: _diasSelecionados[i] ? Colors.blue : Colors.white,
+                color: _diasSelecionados[i] ? Color(0xFF2864ff) : Colors.white,
                 border: Border.all(
-                    color: _diasSelecionados[i] ? Colors.blue : Colors.black54),
+                    color: _diasSelecionados[i]
+                        ? Color(0xFF2864ff)
+                        : Colors.black54),
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: Text(
