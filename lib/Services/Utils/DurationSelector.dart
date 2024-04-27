@@ -8,9 +8,7 @@ class DurationSelector extends StatefulWidget {
 class _DurationSelectorState extends State<DurationSelector> {
   List<int> durationsInMinutes = List.generate(20, (index) => (index + 1) * 15);
 
-  int selectedDuration =
-      0; // Alterado para selecionar a primeira opção inicialmente
-
+  int selectedDuration = 0;
   @override
   Widget build(BuildContext context) {
     return SizedBox(

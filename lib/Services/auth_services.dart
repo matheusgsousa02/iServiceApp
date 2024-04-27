@@ -36,7 +36,7 @@ class AuthServices {
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(request.toJson()),
     );
-
+    print(response.body);
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body);
       print(jsonResponse);

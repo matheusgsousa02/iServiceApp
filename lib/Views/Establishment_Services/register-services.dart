@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:iservice_application/Models/service.dart';
+import 'package:iservice_application/Models/service_category.dart';
+import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Services/Utils/DurationSelector.dart';
 import 'package:iservice_application/Services/Utils/textFieldUtils.dart';
-import 'package:iservice_application/Views/Home_Page/home-page-client.dart';
+import 'package:iservice_application/Services/service_services.dart';
+import 'package:iservice_application/Views/Establishment_MyEstablishment/catalog.dart';
+import '../../Models/Request/service_model.dart';
 
 class RegisterServices extends StatefulWidget {
-  const RegisterServices({Key? key}) : super(key: key);
+  final UserInfo userInfo;
+
+  const RegisterServices({required this.userInfo, Key? key}) : super(key: key);
 
   @override
   State<RegisterServices> createState() => _RegisterServicesState();
@@ -17,20 +24,15 @@ class _RegisterServicesState extends State<RegisterServices> {
   TextEditingController serviceNameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  List<String> opcoes = [
-    'Escolha a categoria do serviço',
-    'Opção 1',
-    'Opção 2',
-    'Opção 3',
-    'Opção 4'
-  ];
-  String? selectedValue;
+  late double doubleValue;
+  int? selectedCategory;
   String mensagemErro = '';
   bool filledFields = false;
   File? _image;
   TimeOfDay? _selectedTime = TimeOfDay.now();
   List<int> durationsInMinutes = List.generate(20, (index) => (index + 1) * 15);
-
+  ServiceServices serviceServices = ServiceServices();
+  List<ServiceCategory> serviceCategories = [];
   int selectedDuration = 15;
 
   Future<void> _selectTime(BuildContext context) async {
@@ -64,7 +66,21 @@ class _RegisterServicesState extends State<RegisterServices> {
     serviceNameController.addListener(atualizarEstadoCampos);
     priceController.addListener(atualizarEstadoCampos);
     descriptionController.addListener(atualizarEstadoCampos);
-    selectedValue = opcoes[0];
+
+    fetchServiceCategories();
+  }
+
+  Future<void> fetchServiceCategories() async {
+    try {
+      List<ServiceCategory> fetchedCategories =
+          await serviceServices.getServicesCategories();
+      print(fetchedCategories);
+      setState(() {
+        serviceCategories = fetchedCategories;
+      });
+    } catch (e) {
+      print('Erro ao buscar as categorias de serviço: $e');
+    }
   }
 
   void atualizarMensagemErro(String mensagem) {
@@ -206,7 +222,10 @@ class _RegisterServicesState extends State<RegisterServices> {
                       ),
                     ),
                     const SizedBox(height: 10),
+
+                    //Duração
                     DurationSelector(),
+
                     const SizedBox(height: 10),
                     Utils.buildTextField(
                       controller: serviceNameController,
@@ -215,10 +234,17 @@ class _RegisterServicesState extends State<RegisterServices> {
                     ),
                     const SizedBox(height: 10),
                     Utils.buildTextField(
-                      controller: priceController,
-                      hintText: 'Preço',
-                      prefixIcon: Icons.price_change_outlined,
-                    ),
+                        controller: priceController,
+                        keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
+                        hintText: 'Preço',
+                        prefixIcon: Icons.price_change_outlined,
+                        onChanged: (value) {
+                          setState(() {
+                            doubleValue =
+                                double.tryParse(priceController.text) ?? 999999;
+                          });
+                        }),
                     const SizedBox(height: 10),
                     TextFormField(
                       controller: descriptionController,
@@ -266,46 +292,58 @@ class _RegisterServicesState extends State<RegisterServices> {
                     const SizedBox(height: 10),
                     SizedBox(
                       width: double.infinity,
-                      child: DropdownButton<String>(
-                        value: selectedValue,
+                      child: DropdownButton<int>(
+                        value: selectedCategory,
                         onChanged: (newValue) {
                           setState(() {
-                            selectedValue = newValue;
+                            selectedCategory = newValue ?? 0;
                             mensagemErro = '';
                           });
                         },
-                        items: opcoes
-                            .map<DropdownMenuItem<String>>((String? value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 12),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.category,
-                                    color: Color(0xFF2864ff),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    value ?? '',
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w100,
-                                      fontSize: 16,
+                        items: [
+                          DropdownMenuItem<int>(
+                              value: null,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 12),
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.category,
+                                      color: Color(0xFF2864ff),
                                     ),
-                                  ),
-                                ],
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'Categoria do serviço',
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w100,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )),
+                          ...serviceCategories.map<DropdownMenuItem<int>>(
+                              (ServiceCategory category) {
+                            return DropdownMenuItem<int>(
+                              value: category.serviceCategoryId,
+                              child: Text(
+                                category.name,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w100,
+                                  fontSize: 16,
+                                ),
                               ),
-                            ),
-                          );
-                        }).toList(),
-                        style: const TextStyle(
+                            );
+                          }).toList(),
+                        ],
+                        style: TextStyle(
                           color: Colors.black,
                         ),
                         underline: Container(
                           height: 1.5,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             border: Border(
                               bottom: BorderSide(
                                 color: Colors.grey,
@@ -325,21 +363,41 @@ class _RegisterServicesState extends State<RegisterServices> {
                       minWidth: double.infinity,
                       height: 60,
                       onPressed: () async {
-                        if (filledFields) {
-                          String serviceName = serviceNameController.text;
-                          String price = priceController.text;
-                          String description = descriptionController.text;
-                          String category = selectedValue ?? '';
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomePageClient(),
-                            ),
-                          );
-                        } else {
+                        if (!filledFields) {
                           atualizarMensagemErro(
                               'Por favor, preencha todos os campos.');
+                        } else {
+                          try {
+                            ServiceModel request = ServiceModel(
+                              establishmentProfileId: widget.userInfo
+                                  .establishmentProfile!.establishmentProfileId,
+                              serviceCategoryId: selectedCategory!,
+                              name: serviceNameController.text,
+                              description: descriptionController.text,
+                              price: doubleValue,
+                              estimatedDuration: selectedDuration!,
+                            );
+
+                            await ServiceServices()
+                                .addService(request)
+                                .then((Service service) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Catalog(
+                                    userInfo: widget.userInfo,
+                                  ),
+                                ),
+                              );
+                            }).catchError((e) {
+                              print('Erro ao registrar servidor: $e');
+                              atualizarMensagemErro(
+                                  'Erro ao registrar servidor: $e');
+                            });
+                          } catch (error) {
+                            atualizarMensagemErro(
+                                'Erro ao registrar servidor: $error');
+                          }
                         }
                       },
                       color:

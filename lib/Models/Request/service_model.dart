@@ -6,7 +6,7 @@ class ServiceModel {
   String name;
   String description;
   double price;
-  double estimatedDuration;
+  int estimatedDuration;
   Uint8List? photo;
 
   ServiceModel({
@@ -25,7 +25,7 @@ class ServiceModel {
         name: json['name'] as String,
         description: json['description'] as String,
         price: (json['price'] as num).toDouble(),
-        estimatedDuration: (json['estimatedDuration'] as num).toDouble(),
+        estimatedDuration: (json['estimatedDuration'] as num).toInt(),
         photo: json['photo'] == null
             ? null
             : Uint8List.fromList(List<int>.from(json['photo'])),

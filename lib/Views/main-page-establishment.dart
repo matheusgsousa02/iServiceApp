@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Views/Establishment_MyEstablishment/my-establishment.dart';
 import 'package:iservice_application/Views/Establishment_Profile/establishment-profile.dart';
 import 'package:iservice_application/Views/Establishment_Services/schedules.dart';
 import 'package:iservice_application/Views/Home_Page/home-page-establishment.dart';
-import '../../Models/User/UserInfo.dart';
 
 class MainPageEstablishment extends StatefulWidget {
-  final UserInfo? userInfo;
+  final UserInfo userInfo;
 
-  const MainPageEstablishment({this.userInfo, Key? key}) : super(key: key);
+  const MainPageEstablishment({required this.userInfo, Key? key})
+      : super(key: key);
 
   @override
-  _MainPageEstablishmentState createState() => _MainPageEstablishmentState();
+  State<MainPageEstablishment> createState() => _MainPageEstablishmentState();
 }
 
 class _MainPageEstablishmentState extends State<MainPageEstablishment> {
   int _selectedIndex = 0;
 
-  List<Widget> _pages = <Widget>[
-    HomePageEstablishment(),
+  late List<Widget> _pages = <Widget>[
+    HomePageEstablishment(userInfo: widget.userInfo),
     Schedules(),
-    MyEstablishment(),
+    MyEstablishment(userInfo: widget.userInfo),
     EstablishmentProfile(),
   ];
 
@@ -38,8 +39,8 @@ class _MainPageEstablishmentState extends State<MainPageEstablishment> {
         decoration: BoxDecoration(
           border: Border(
             top: BorderSide(
-              color: Colors.black26, // Cor da linha cinza claro
-              width: 0.3, // Largura da linha
+              color: Colors.black26,
+              width: 0.3,
             ),
           ),
         ),

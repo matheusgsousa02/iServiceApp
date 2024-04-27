@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-
+import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Views/Establishment_MyEstablishment/catalog.dart';
 
 class MyEstablishment extends StatefulWidget {
-  const MyEstablishment({Key? key}) : super(key: key);
+  final UserInfo userInfo;
+
+  const MyEstablishment({required this.userInfo, Key? key}) : super(key: key);
 
   @override
   State<MyEstablishment> createState() => _MyEstablishmentState();
@@ -119,7 +121,9 @@ class _MyEstablishmentState extends State<MyEstablishment> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const Catalog()),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Catalog(userInfo: widget.userInfo)),
                     );
                   },
                   child: Row(
@@ -162,7 +166,9 @@ class _MyEstablishmentState extends State<MyEstablishment> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const Catalog()),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Catalog(userInfo: widget.userInfo)),
                     );
                   },
                   child: Row(

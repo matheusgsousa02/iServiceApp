@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Views/Home_Page/home-page-client.dart';
+import 'package:iservice_application/Views/main-page-client.dart';
 import 'package:iservice_application/Views/main-page-establishment.dart';
 import '../../Services/Utils/validationsUtils.dart';
 import '../../Models/Auth/Login.dart';
@@ -219,7 +220,8 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const MainPageEstablishment(),
+                            builder: (context) =>
+                                MainPageEstablishment(userInfo: userInfo),
                           ),
                         );
                       } else if (userInfo.userRole.userRoleId == 2) {
@@ -227,7 +229,8 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const HomePageClient(),
+                            builder: (context) =>
+                                MainPageClient(userInfo: userInfo),
                           ),
                         );
                       } else {

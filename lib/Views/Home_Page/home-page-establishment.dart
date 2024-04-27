@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Services/Utils/barChart.dart';
 import 'package:iservice_application/Views/Establishment_MyEstablishment/catalog.dart';
 import 'package:iservice_application/Views/Establishment_Services/schedules.dart';
-import '../../Models/User/UserInfo.dart';
 
 class HomePageEstablishment extends StatefulWidget {
-  final UserInfo? userInfo;
+  final UserInfo userInfo;
 
-  const HomePageEstablishment({this.userInfo, Key? key}) : super(key: key);
+  const HomePageEstablishment({required this.userInfo, Key? key})
+      : super(key: key);
 
   @override
   State<HomePageEstablishment> createState() => _HomePageEstablishmentState();
@@ -105,7 +106,9 @@ class _HomePageEstablishmentState extends State<HomePageEstablishment> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Catalog()),
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                Catalog(userInfo: widget.userInfo)),
                       );
                     },
                     child: Container(

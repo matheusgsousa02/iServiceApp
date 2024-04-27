@@ -4,34 +4,34 @@ import '../Request/address_model.dart';
 
 class Register {
   int userId;
-  EstablishmentProfileModel? establishment;
-  ClientProfileModel? client;
+  EstablishmentProfileModel? establishmentProfile;
+  ClientProfileModel? clientProfile;
   AddressModel address;
 
   Register({
     required this.userId,
-    this.establishment,
-    this.client,
+    this.establishmentProfile,
+    this.clientProfile,
     required this.address,
   });
 
-  Register.client({
+  Register.clientProfile({
     required this.userId,
-    required this.client,
+    required this.clientProfile,
     required this.address,
-  }) : establishment = null;
+  }) : establishmentProfile = null;
 
-  Register.establishment({
+  Register.establishmentProfile({
     required this.userId,
-    required this.establishment,
+    required this.establishmentProfile,
     required this.address,
-  }) : client = null;
+  }) : clientProfile = null;
 
   Map<String, dynamic> toJson() {
     return {
       'userId': userId,
-      'establishment': establishment?.toJson(),
-      'client': client?.toJson(),
+      'establishmentProfile': establishmentProfile?.toJson(),
+      'clientProfile': clientProfile?.toJson(),
       'address': address.toJson(),
     };
   }
@@ -39,12 +39,13 @@ class Register {
   factory Register.fromJson(Map<String, dynamic> json) {
     return Register(
       userId: json['userId'] as int,
-      establishment: json['establishment'] != null
+      establishmentProfile: json['establishmentProfile'] != null
           ? EstablishmentProfileModel.fromJson(
               json['establishment'] as Map<String, dynamic>)
           : null,
-      client: json['client'] != null
-          ? ClientProfileModel.fromJson(json['client'] as Map<String, dynamic>)
+      clientProfile: json['clientProfile'] != null
+          ? ClientProfileModel.fromJson(
+              json['clientProfile'] as Map<String, dynamic>)
           : null,
       address: AddressModel.fromJson(json['address'] as Map<String, dynamic>),
     );

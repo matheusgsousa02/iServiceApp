@@ -1,17 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:iservice_application/Models/service.dart';
+import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Services/Auth/register.dart';
+import 'package:iservice_application/Services/service_services.dart';
 import 'package:iservice_application/Views/Establishment_Services/register-services.dart';
 import '../Establishment_MyEstablishment/service-card.dart';
 
 class Catalog extends StatefulWidget {
-  const Catalog({Key? key}) : super(key: key);
+  final UserInfo userInfo;
+
+  const Catalog({required this.userInfo, Key? key}) : super(key: key);
 
   @override
   State<Catalog> createState() => _CatalogState();
 }
 
 class _CatalogState extends State<Catalog> {
+  Future<List<Service>> _servicesFuture = Future.value([]);
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Chamada para obter os serviços da API
+    ServiceServices()
+        .getByEstablishmentProfileId(
+            widget.userInfo.establishmentProfile!.establishmentProfileId)
+        .then((List<Service> services) {
+      print('oie');
+      setState(() {
+        _servicesFuture = Future.value(services);
+      });
+    }).catchError((e) {
+      print(e.toString());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +66,7 @@ class _CatalogState extends State<Catalog> {
           ),
         ),
       ),
-      body: ListView(
+      body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(15),
@@ -49,11 +74,13 @@ class _CatalogState extends State<Catalog> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => RegisterServices()),
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          RegisterServices(userInfo: widget.userInfo)),
                 );
               },
               child: Container(
-                width: 120,
+                width: 390,
                 padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                 decoration: BoxDecoration(
                   color: Color(0xFF2864ff),
@@ -72,11 +99,43 @@ class _CatalogState extends State<Catalog> {
               ),
             ),
           ),
-          Container(
-            alignment: Alignment.centerLeft,
-            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          Expanded(
+            child: FutureBuilder<List<Service>>(
+              future: _servicesFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Erro: ${snapshot.error}'));
+                } else if (snapshot.hasData) {
+                  return GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.56,
+                    ),
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      final service = snapshot.data![index];
+                      return ServiceCard(
+                        serviceName: service.name,
+                        serviceDuration: '${service.estimatedDuration} minutos',
+                        onTapEdit: () {
+                          // Lógica para editar o serviço
+                        },
+                        onTapRemove: () {
+                          // Lógica para remover o serviço
+                        },
+                      );
+                    },
+                  );
+                } else {
+                  return Center(
+                      child: Text(
+                          'Nenhum serviço disponível.')); // Exibe mensagem se não houver dados
+                }
+              },
+            ),
           ),
-          ServiceCard(),
         ],
       ),
     );

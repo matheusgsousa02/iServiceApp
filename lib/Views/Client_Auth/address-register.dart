@@ -4,8 +4,11 @@ import 'package:iservice_application/Models/Request/address_model.dart';
 import 'package:iservice_application/Models/Request/client_profile_model.dart';
 import 'package:iservice_application/Models/Request/establishment_profile_model.dart';
 import 'package:iservice_application/Models/user_info.dart';
+import 'package:iservice_application/Models/via_cep.dart';
 import 'package:iservice_application/Services/auth_services.dart';
+import 'package:iservice_application/Services/via_cep_services.dart';
 import 'package:iservice_application/Views/main-page-client.dart';
+import 'package:iservice_application/Views/main-page-establishment.dart';
 import '../../Services/Auth/cep.dart';
 import '../../Services/Utils/textFieldUtils.dart';
 
@@ -55,8 +58,7 @@ class _AddressRegisterState extends State<AddressRegister> {
           cityController.text.isNotEmpty &&
           hoodController.text.isNotEmpty &&
           streetController.text.isNotEmpty &&
-          numController.text.isNotEmpty &&
-          compController.text.isNotEmpty;
+          numController.text.isNotEmpty;
 
       if (filledFields) {
         atualizarMensagemErro('');
@@ -71,13 +73,12 @@ class _AddressRegisterState extends State<AddressRegister> {
   }
 
   Future<void> fetchData() async {
-    await EndCep.fetchData(
-      cepController.text,
-      stateController,
-      cityController,
-      hoodController,
-      streetController,
-    );
+    ViaCepServices().getAddress(cepController.text).then((ViaCep viaCep) {
+      stateController.text = viaCep.uf ?? '';
+      cityController.text = viaCep.localidade ?? '';
+      hoodController.text = viaCep.bairro ?? '';
+      streetController.text = viaCep.logradouro ?? '';
+    }).catchError((e) {});
   }
 
   @override
@@ -182,6 +183,7 @@ class _AddressRegisterState extends State<AddressRegister> {
             child: MaterialButton(
               onPressed: () async {
                 try {
+                  print(widget.clientProfileModel);
                   Register request = Register(
                       userId: widget.userInfo.user.userId,
                       address: AddressModel(
@@ -194,18 +196,33 @@ class _AddressRegisterState extends State<AddressRegister> {
                         postalCode: cepController.text,
                       ));
                   if (widget.userInfo.user.userRoleId == 1) {
-                    request.establishment = widget.establishmentProfileModel;
+                    request.establishmentProfile =
+                        widget.establishmentProfileModel;
                   } else if (widget.userInfo.user.userRoleId == 2) {
-                    request.client = widget.clientProfileModel;
+                    request.clientProfile = widget.clientProfileModel;
                   }
                   AuthServices().register(request).then((UserInfo userInfo) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            MainPageClient(userInfo: userInfo),
-                      ),
-                    );
+                    if (userInfo.userRole.userRoleId == 1) {
+                      print('1');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              MainPageEstablishment(userInfo: userInfo),
+                        ),
+                      );
+                    } else if (userInfo.userRole.userRoleId == 2) {
+                      print('2');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              MainPageClient(userInfo: userInfo),
+                        ),
+                      );
+                    } else {
+                      print('404 not found');
+                    }
                   });
                 } catch (e) {
                   print('Erro ao executar ação: $e');

@@ -6,9 +6,9 @@ import 'package:iservice_application/Views/Establishment_Services/schedules.dart
 import 'package:iservice_application/Views/Home_Page/home-page-client.dart';
 
 class MainPageClient extends StatefulWidget {
-  final UserInfo? userInfo;
+  final UserInfo userInfo;
 
-  const MainPageClient({this.userInfo, Key? key}) : super(key: key);
+  const MainPageClient({required this.userInfo, Key? key}) : super(key: key);
 
   @override
   _MainPageClientState createState() => _MainPageClientState();

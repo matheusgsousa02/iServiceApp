@@ -23,6 +23,26 @@ class ServiceServices {
     }
   }
 
+  Future<List<Service>> getByEstablishmentProfileId(
+      int establishmentProfileId) async {
+    var url = Uri.parse(
+        'http://10.0.2.2:5120/Service/GetByEstablishmentProfileId/$establishmentProfileId');
+    var response =
+        await http.get(url, headers: {'Content-Type': 'application/json'});
+
+    if (response.statusCode == 200) {
+      List jsonResponse = jsonDecode(response.body) as List;
+      print(jsonResponse);
+      return jsonResponse
+          .map((categoryJson) => Service.fromJson(categoryJson))
+          .toList();
+    } else {
+      var jsonResponse = jsonDecode(response.body);
+      var errorMessage = jsonResponse['message'] ?? 'Erro desconhecido';
+      throw Exception(errorMessage);
+    }
+  }
+
   Future<List<Service>> getByServiceCategoryId(int serviceCategoryId) async {
     var url = Uri.parse(
         'http://10.0.2.2:5120/GetByServiceCategoryId/$serviceCategoryId');
@@ -52,7 +72,7 @@ class ServiceServices {
       body: jsonEncode(request.toJson()),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       var jsonResponse = jsonDecode(response.body);
       print(jsonResponse);
       return Service.fromJson(jsonResponse);
