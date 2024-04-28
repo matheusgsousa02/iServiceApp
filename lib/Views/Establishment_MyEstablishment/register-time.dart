@@ -7,8 +7,10 @@ import 'package:iservice_application/Services/schedule_services.dart';
 
 class RegisterTime extends StatefulWidget {
   final UserInfo userInfo;
+  final _DiasDaSemanaState? diasSelecionados;
 
-  const RegisterTime({required this.userInfo, Key? key}) : super(key: key);
+  const RegisterTime({required this.userInfo, this.diasSelecionados, Key? key})
+      : super(key: key);
 
   @override
   State<RegisterTime> createState() => _RegisterTimeState();
@@ -22,10 +24,7 @@ class _RegisterTimeState extends State<RegisterTime> {
   TimeOfDay? _selectedTime = TimeOfDay.now();
   String mensagemErro = '';
   bool filledFields = false;
-
-  String _diasSelecionadosAsString() {
-    return diasSelecionadosAsString(_DiasDaSemanaState()._diasSelecionados);
-  }
+  _DiasDaSemanaState diasDaSemana = _DiasDaSemanaState();
 
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? pickedTime = await showTimePicker(
@@ -123,7 +122,13 @@ class _RegisterTimeState extends State<RegisterTime> {
                 SizedBox(
                   height: 20,
                 ),
-                DiasDaSemana(),
+                DiasDaSemana(
+                  onUpdateSelectedDays: (selectedDays) {
+                    setState(() {
+                      diasDaSemana._diasSelecionados = selectedDays;
+                    });
+                  },
+                ),
                 SizedBox(
                   height: 30,
                 ),
@@ -207,7 +212,7 @@ class _RegisterTimeState extends State<RegisterTime> {
                         ScheduleModel request = ScheduleModel(
                           establishmentProfileId: widget.userInfo
                               .establishmentProfile!.establishmentProfileId,
-                          days: _diasSelecionadosAsString(),
+                          days: diasDaSemana._getDiasSelecionados(),
                           start: timeStartController.text,
                           end: timeEndController.text,
                           breakStart: timeBreakStartController.text,
@@ -265,6 +270,11 @@ class _RegisterTimeState extends State<RegisterTime> {
 }
 
 class DiasDaSemana extends StatefulWidget {
+  final Function(List<bool>) onUpdateSelectedDays;
+
+  const DiasDaSemana({required this.onUpdateSelectedDays, Key? key})
+      : super(key: key);
+
   @override
   _DiasDaSemanaState createState() => _DiasDaSemanaState();
 }
@@ -291,6 +301,7 @@ class _DiasDaSemanaState extends State<DiasDaSemana> {
               setState(() {
                 _diasSelecionados[i] = !_diasSelecionados[i];
               });
+              widget.onUpdateSelectedDays(_diasSelecionados);
             },
             child: Container(
               padding: EdgeInsets.all(11),
@@ -334,14 +345,14 @@ class _DiasDaSemanaState extends State<DiasDaSemana> {
         return '';
     }
   }
-}
 
-String diasSelecionadosAsString(List<bool> diasSelecionados) {
-  List<int> diasSelecionadosList = [];
-  for (int i = 0; i < diasSelecionados.length; i++) {
-    if (diasSelecionados[i]) {
-      diasSelecionadosList.add(i);
+  String _getDiasSelecionados() {
+    List<int> diasSelecionados = [];
+    for (int i = 0; i < _diasSelecionados.length; i++) {
+      if (_diasSelecionados[i]) {
+        diasSelecionados.add(i);
+      }
     }
+    return diasSelecionados.join(', ');
   }
-  return diasSelecionadosList.join(',');
 }
