@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
 import 'package:iservice_application/Models/service.dart';
 import 'package:iservice_application/Models/service_category.dart';
@@ -31,6 +33,7 @@ class _RegisterServicesState extends State<RegisterServices> {
   String mensagemErro = '';
   bool filledFields = false;
   File? _image;
+  late String? bytes;
   TimeOfDay? _selectedTime = TimeOfDay.now();
   List<int> durationsInMinutes = List.generate(20, (index) => (index + 1) * 15);
   ServiceServices serviceServices = ServiceServices();
@@ -52,11 +55,21 @@ class _RegisterServicesState extends State<RegisterServices> {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: source);
 
-    setState(() {
-      if (pickedImage != null) {
+    if (pickedImage != null) {
+      setState(() {
         _image = File(pickedImage.path);
-      }
-    });
+      });
+
+      // Converte a imagem para base64
+      List<int> imageBytes = await pickedImage.readAsBytes();
+      String base64Image = base64Encode(imageBytes);
+
+      // Atualiza o atributo bytes com a imagem em base64
+      setState(() {
+        bytes = base64Image;
+      });
+      print(bytes);
+    }
   }
 
   @override

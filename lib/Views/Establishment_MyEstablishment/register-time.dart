@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:iservice_application/Models/Request/schedule_model.dart';
+import 'package:iservice_application/Models/schedule.dart';
 import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Services/Utils/textFieldUtils.dart';
+import 'package:iservice_application/Services/schedule_services.dart';
 
 class RegisterTime extends StatefulWidget {
   final UserInfo userInfo;
@@ -19,6 +22,10 @@ class _RegisterTimeState extends State<RegisterTime> {
   TimeOfDay? _selectedTime = TimeOfDay.now();
   String mensagemErro = '';
   bool filledFields = false;
+
+  String _diasSelecionadosAsString() {
+    return diasSelecionadosAsString(_DiasDaSemanaState()._diasSelecionados);
+  }
 
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? pickedTime = await showTimePicker(
@@ -191,7 +198,50 @@ class _RegisterTimeState extends State<RegisterTime> {
                 MaterialButton(
                   minWidth: double.infinity,
                   height: 60,
-                  onPressed: () async {},
+                  onPressed: () async {
+                    if (!filledFields) {
+                      atualizarMensagemErro(
+                          'Por favor, preencha todos os campos.');
+                    } else {
+                      try {
+                        ScheduleModel request = ScheduleModel(
+                          establishmentProfileId: widget.userInfo
+                              .establishmentProfile!.establishmentProfileId,
+                          days: _diasSelecionadosAsString(),
+                          start: timeStartController.text,
+                          end: timeEndController.text,
+                          breakStart: timeBreakStartController.text,
+                          breakEnd: timeBreakEndController.text,
+                        );
+
+                        await ScheduleServices()
+                            .addSchedule(request)
+                            .then((Schedule schedule) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Dados cadastrados com sucesso',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              duration: Duration(seconds: 3),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                        }).catchError((e) {
+                          print('Erro ao registrar servidor: $e');
+                          atualizarMensagemErro(
+                              'Erro ao registrar servidor: $e');
+                        });
+                      } catch (error) {
+                        atualizarMensagemErro(
+                            'Erro ao registrar servidor: $error');
+                      }
+                    }
+                  },
                   color: filledFields ? const Color(0xFF2864ff) : Colors.grey,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),
@@ -284,4 +334,14 @@ class _DiasDaSemanaState extends State<DiasDaSemana> {
         return '';
     }
   }
+}
+
+String diasSelecionadosAsString(List<bool> diasSelecionados) {
+  List<int> diasSelecionadosList = [];
+  for (int i = 0; i < diasSelecionados.length; i++) {
+    if (diasSelecionados[i]) {
+      diasSelecionadosList.add(i);
+    }
+  }
+  return diasSelecionadosList.join(',');
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iservice_application/Models/Request/establishment_profile_model.dart';
-import 'package:iservice_application/Models/User/EstablishmentProfile.dart';
+import 'package:iservice_application/Models/establishment_profile.dart';
+import 'package:iservice_application/Models/profile_update.dart';
+import 'package:iservice_application/Models/user.dart';
 import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Services/Utils/textFieldUtils.dart';
 import 'package:iservice_application/Services/user_services.dart';
@@ -58,14 +60,13 @@ class _EditPersonalEstablishmentState extends State<EditPersonalEstablishment> {
 
   Future<void> fetchData() async {
     UserServices()
-        .getUserInfoByUserId(
-            widget.userInfo.establishmentProfile!.establishmentProfileId)
+        .getUserInfoByUserId(widget.userInfo.user.userId)
         .then((UserInfo userInfo) {
       print(userInfo.establishmentProfile);
-      commercialNameController.text =
-          userInfo.establishmentProfile!.commercialName ?? '';
+      commercialNameController.text = userInfo.user.name ?? '';
       cnpjController.text = userInfo.establishmentProfile!.cnpj ?? '';
-      /*establishmntNameController.text = userInfo.establishmentProfile!. ?? '';*/
+      establishmntNameController.text =
+          userInfo.establishmentProfile!.commercialName ?? '';
       commercialContactController.text =
           userInfo.establishmentProfile!.commercialPhone ?? '';
       commercialEmailController.text =
@@ -281,35 +282,48 @@ class _EditPersonalEstablishmentState extends State<EditPersonalEstablishment> {
                   minWidth: double.infinity,
                   height: 60,
                   onPressed: () async {
-                    if (filledFields) {
-                      String cnpj = cnpjController.text;
-                      String commercialName = establishmntNameController.text;
-                      String commercialContact =
-                          commercialContactController.text;
-                      String commercialEmail = commercialEmailController.text;
-                      String description = descriptionController.text;
+                    try {
+                      ProfileUpdate request = ProfileUpdate(
+                          name: commercialNameController.text,
+                          establishmentProfile: EstablishmentProfile(
+                            userId: widget.userInfo.user.userId,
+                            cnpj: cnpjController.text,
+                            commercialName: establishmntNameController.text,
+                            establishmentProfileId: widget.userInfo
+                                .establishmentProfile!.establishmentProfileId,
+                            description: descriptionController.text,
+                            commercialPhone: commercialContactController.text,
+                            commercialEmail: commercialEmailController.text,
+                            addressId: widget.userInfo.address!.addressId,
+                            establishmentCategoryId: widget.userInfo
+                                .establishmentProfile!.establishmentCategoryId,
+                            creationDate: DateTime.now(),
+                          ));
 
-                      EstablishmentProfileModel request =
-                          EstablishmentProfileModel(
-                              userId: widget.userInfo.user.userId,
-                              establishmentCategoryId: 1,
-                              cnpj: cnpj,
-                              commercialName: commercialName,
-                              description: description,
-                              commercialPhone: commercialContact,
-                              commercialEmail: commercialEmail);
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AddressRegister(
-                              userInfo: widget.userInfo,
-                              establishmentProfileModel: request),
-                        ),
-                      );
-                    } else {
-                      atualizarMensagemErro(
-                          'Por favor, preencha todos os campos.');
+                      UserServices()
+                          .editProfile(request)
+                          .then((UserInfo updatedProfile) {
+                        if (filledFields) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Dados cadastrados com sucesso',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              duration: Duration(seconds: 3),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                        } else {
+                          print('404 not found');
+                        }
+                      });
+                    } catch (e) {
+                      print('Erro ao executar ação: $e');
                     }
                   },
                   color: filledFields ? const Color(0xFF2864ff) : Colors.grey,

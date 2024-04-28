@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:iservice_application/Models/user_info.dart';
+import 'package:table_calendar/table_calendar.dart';
+import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart'
+    as CupertinoDatePicker;
 
 class ServicePage extends StatefulWidget {
-  const ServicePage({Key? key}) : super(key: key);
+  final UserInfo userInfo;
+
+  ServicePage({required this.userInfo, Key? key});
 
   @override
   State<ServicePage> createState() => _ServicePageState();
@@ -130,7 +136,21 @@ class _ServicePageState extends State<ServicePage> {
                     MaterialButton(
                       minWidth: double.infinity,
                       height: 60,
-                      onPressed: () {},
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Container(
+                              height: 200,
+                              width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[],
+                              ),
+                            );
+                          },
+                        );
+                      },
                       color: const Color(0xFF2864ff),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50),
