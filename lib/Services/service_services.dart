@@ -103,4 +103,24 @@ class ServiceServices {
       throw Exception(errorMessage);
     }
   }
+
+  Future<List<String>> getAvailableTimes(int serviceId, DateTime date) async {
+    var formattedDate = date.toIso8601String();
+    var url = Uri.parse(
+        'http://10.0.2.2:5120/Service/GetAvailableTimes/$serviceId/$formattedDate');
+
+    var response =
+        await http.get(url, headers: {'Content-Type': 'application/json'});
+
+    if (response.statusCode == 200) {
+      List jsonResponse = jsonDecode(response.body) as List;
+      print(jsonResponse);
+      // Assumindo que a resposta é uma lista de strings diretamente
+      return jsonResponse.map((time) => time.toString()).toList();
+    } else {
+      var jsonResponse = jsonDecode(response.body);
+      var errorMessage = jsonResponse['message'] ?? 'Erro desconhecido';
+      throw Exception(errorMessage);
+    }
+  }
 }

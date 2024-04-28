@@ -1,10 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:iservice_application/Models/Address.dart';
-import 'package:iservice_application/Models/Establishment_profile.dart';
 import 'package:iservice_application/Models/ImageModel.dart';
-import 'package:iservice_application/Models/client_profile.dart';
 import 'package:iservice_application/Models/establishment_category.dart';
+import 'package:iservice_application/Models/profile_update.dart';
 import 'package:iservice_application/Models/user_info.dart';
 
 class UserServices {
@@ -28,11 +27,10 @@ class UserServices {
     }
   }
 
-  Future<ClientProfile> editClientProfile(ClientProfile request) async {
+  Future<UserInfo> editProfile(ProfileUpdate request) async {
     print('Request Data: ${jsonEncode(request.toJson())}');
 
-    var url = Uri.parse(
-        'http://10.0.2.2:5120/ClientProfile/${request.clientProfileId}');
+    var url = Uri.parse('http://10.0.2.2:5120/User/UpdateUserProfile');
     var response = await http.put(
       url,
       headers: {'Content-Type': 'application/json'},
@@ -42,30 +40,7 @@ class UserServices {
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body);
       print(jsonResponse);
-      return ClientProfile.fromJson(jsonResponse);
-    } else {
-      var jsonResponse = jsonDecode(response.body);
-      var errorMessage = jsonResponse['message'] ?? 'Erro desconhecido';
-      throw Exception(errorMessage);
-    }
-  }
-
-  Future<EstablishmentProfile> editEstablishmentProfile(
-      EstablishmentProfile request) async {
-    print('Request Data: ${jsonEncode(request.toJson())}');
-
-    var url = Uri.parse(
-        'http://10.0.2.2:5120/EstablishmentProfile/${request.establishmentProfileId}');
-    var response = await http.put(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(request.toJson()),
-    );
-
-    if (response.statusCode == 200) {
-      var jsonResponse = jsonDecode(response.body);
-      print(jsonResponse);
-      return EstablishmentProfile.fromJson(jsonResponse);
+      return UserInfo.fromJson(jsonResponse);
     } else {
       var jsonResponse = jsonDecode(response.body);
       var errorMessage = jsonResponse['message'] ?? 'Erro desconhecido';
