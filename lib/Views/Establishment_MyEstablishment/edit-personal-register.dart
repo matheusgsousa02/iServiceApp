@@ -3,21 +3,21 @@ import 'package:iservice_application/Models/Request/establishment_profile_model.
 import 'package:iservice_application/Models/User/EstablishmentProfile.dart';
 import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Services/Utils/textFieldUtils.dart';
+import 'package:iservice_application/Services/user_services.dart';
 import 'package:iservice_application/Views/Client_Auth/address-register.dart';
 
-class EditPersonalRegisterEstablishment extends StatefulWidget {
+class EditPersonalEstablishment extends StatefulWidget {
   final UserInfo userInfo;
 
-  const EditPersonalRegisterEstablishment({required this.userInfo, Key? key})
+  const EditPersonalEstablishment({required this.userInfo, Key? key})
       : super(key: key);
 
   @override
-  State<EditPersonalRegisterEstablishment> createState() =>
-      _EditPersonalRegisterEstablishmentState();
+  State<EditPersonalEstablishment> createState() =>
+      _EditPersonalEstablishmentState();
 }
 
-class _EditPersonalRegisterEstablishmentState
-    extends State<EditPersonalRegisterEstablishment> {
+class _EditPersonalEstablishmentState extends State<EditPersonalEstablishment> {
   TextEditingController commercialNameController = TextEditingController();
   TextEditingController cnpjController = TextEditingController();
   TextEditingController establishmntNameController = TextEditingController();
@@ -39,7 +39,7 @@ class _EditPersonalRegisterEstablishmentState
   @override
   void initState() {
     super.initState();
-
+    fetchData();
     commercialNameController.addListener(atualizarEstadoCampos);
     cnpjController.addListener(atualizarEstadoCampos);
     establishmntNameController.addListener(atualizarEstadoCampos);
@@ -54,6 +54,26 @@ class _EditPersonalRegisterEstablishmentState
     setState(() {
       mensagemErro = mensagem;
     });
+  }
+
+  Future<void> fetchData() async {
+    UserServices()
+        .getUserInfoByUserId(
+            widget.userInfo.establishmentProfile!.establishmentProfileId)
+        .then((UserInfo userInfo) {
+      print(userInfo.establishmentProfile);
+      commercialNameController.text =
+          userInfo.establishmentProfile!.commercialName ?? '';
+      cnpjController.text = userInfo.establishmentProfile!.cnpj ?? '';
+      /*establishmntNameController.text = userInfo.establishmentProfile!. ?? '';*/
+      commercialContactController.text =
+          userInfo.establishmentProfile!.commercialPhone ?? '';
+      commercialEmailController.text =
+          userInfo.establishmentProfile!.commercialEmail ?? '';
+      /*categoryController.text = userInfo.establishmentProfile!. ?? '';*/
+      descriptionController.text =
+          userInfo.establishmentProfile!.description ?? '';
+    }).catchError((e) {});
   }
 
   void atualizarEstadoCampos() {

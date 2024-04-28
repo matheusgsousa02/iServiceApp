@@ -336,9 +336,8 @@ class _MyEstablishmentState extends State<MyEstablishment> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              EditPersonalRegisterEstablishment(
-                                  userInfo: widget.userInfo)),
+                          builder: (context) => EditPersonalEstablishment(
+                              userInfo: widget.userInfo)),
                     );
                   },
                   child: Row(
