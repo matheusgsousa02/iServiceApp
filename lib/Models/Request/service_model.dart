@@ -1,13 +1,14 @@
-import 'dart:typed_data'; // Para usar Uint8List
+import 'package:http/http.dart' as http;
 
 class ServiceModel {
   int establishmentProfileId;
   int serviceCategoryId;
   String name;
   String description;
-  double price;
-  int estimatedDuration;
-  Uint8List? photo;
+  double price; // Decimal em C# é convertido para double em Dart
+  double estimatedDuration;
+  String? imagePath; // Para armazenar o caminho do arquivo da imagem
+  List<int>? photo; // Para armazenar dados binários
 
   ServiceModel({
     required this.establishmentProfileId,
@@ -16,28 +17,33 @@ class ServiceModel {
     required this.description,
     required this.price,
     required this.estimatedDuration,
+    this.imagePath,
     this.photo,
   });
 
-  factory ServiceModel.fromJson(Map<String, dynamic> json) => ServiceModel(
-        establishmentProfileId: json['establishmentProfileId'] as int,
-        serviceCategoryId: json['serviceCategoryId'] as int,
-        name: json['name'] as String,
-        description: json['description'] as String,
-        price: (json['price'] as num).toDouble(),
-        estimatedDuration: (json['estimatedDuration'] as num).toInt(),
-        photo: json['photo'] == null
-            ? null
-            : Uint8List.fromList(List<int>.from(json['photo'])),
-      );
+  Map<String, dynamic> toJson() {
+    return {
+      'EstablishmentProfileId': establishmentProfileId,
+      'ServiceCategoryId': serviceCategoryId,
+      'Name': name,
+      'Description': description,
+      'Price': price,
+      'EstimatedDuration': estimatedDuration,
+      'ImagePath':
+          imagePath, // Incluído para completude mas não usado tipicamente em envio de arquivos
+    };
+  }
 
-  Map<String, dynamic> toJson() => {
-        'establishmentProfileId': establishmentProfileId,
-        'serviceCategoryId': serviceCategoryId,
-        'name': name,
-        'description': description,
-        'price': price,
-        'estimatedDuration': estimatedDuration,
-        'photo': photo?.toList(),
-      };
+  static ServiceModel fromJson(Map<String, dynamic> json) {
+    return ServiceModel(
+      establishmentProfileId: json['EstablishmentProfileId'],
+      serviceCategoryId: json['ServiceCategoryId'],
+      name: json['Name'],
+      description: json['Description'],
+      price: json['Price']?.toDouble() ??
+          0.0, // Assegurando que o valor é um double
+      estimatedDuration: json['EstimatedDuration']?.toDouble() ?? 0.0,
+      imagePath: json['ImagePath'],
+    );
+  }
 }

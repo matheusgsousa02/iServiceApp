@@ -1,27 +1,30 @@
-import 'dart:typed_data'; // Necessary for using Uint8List
-
 class ImageModel {
   int id;
-  Uint8List photo;
+  String? imagePath; // Para armazenar o caminho do arquivo da imagem
+  List<int>?
+      photo; // Para armazenar dados binários da foto (equivalente a byte[])
 
   ImageModel({
     required this.id,
-    required this.photo,
+    this.imagePath,
+    this.photo,
   });
 
-  // Method to convert from JSON map to ImageModel instance
-  factory ImageModel.fromJson(Map<String, dynamic> json) {
-    return ImageModel(
-      id: json['id'] as int,
-      photo: Uint8List.fromList(List<int>.from(json['photo'])),
-    );
-  }
-
-  // Method to convert ImageModel instance to JSON map
+  // Método para converter o modelo em um mapa, útil para enviar dados via API
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'photo': photo.toList(),
+      'Id': id,
+      if (imagePath != null) 'Image': imagePath,
+      if (photo != null) 'Photo': photo,
     };
+  }
+
+  // Método para criar uma instância da classe a partir de um mapa
+  factory ImageModel.fromJson(Map<String, dynamic> json) {
+    return ImageModel(
+      id: json['Id'],
+      imagePath: json['Image'],
+      photo: json['Photo'] != null ? List<int>.from(json['Photo']) : null,
+    );
   }
 }

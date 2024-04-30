@@ -65,16 +65,31 @@ class ServiceServices {
   Future<Service> addService(ServiceModel request) async {
     print('Request Data: ${jsonEncode(request.toJson())}');
 
-    var url = Uri.parse('http://10.0.2.2:5120/Service');
-    var response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(request.toJson()),
-    );
+    var uri = Uri.parse('http://10.0.2.2:5120/Service');
+    var multipartRequest = http.MultipartRequest('POST', uri);
+
+    multipartRequest.fields['EstablishmentProfileId'] =
+        request.establishmentProfileId.toString();
+    multipartRequest.fields['ServiceCategoryId'] =
+        request.serviceCategoryId.toString();
+    multipartRequest.fields['Name'] = request.name;
+    multipartRequest.fields['Description'] = request.description;
+    multipartRequest.fields['Price'] = request.price.toString();
+    multipartRequest.fields['EstimatedDuration'] =
+        request.estimatedDuration.toString();
+
+    if (request.imagePath != null) {
+      multipartRequest.files
+          .add(await http.MultipartFile.fromPath('Image', request.imagePath!));
+    }
+
+    http.StreamedResponse streamedResponse = await multipartRequest.send();
+
+    var response = await http.Response.fromStream(streamedResponse);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       var jsonResponse = jsonDecode(response.body);
-      print(jsonResponse);
+      print('Response Data: $jsonResponse');
       return Service.fromJson(jsonResponse);
     } else {
       var jsonResponse = jsonDecode(response.body);
