@@ -50,10 +50,13 @@ class ScheduleServices {
     print('Request Data: ${jsonEncode(request)}');
 
     var url = Uri.parse('http://10.0.2.2:5120/Schedule');
-    var response = await http.post(url,
-        headers: {'Content-Type': 'application/json'}, body: request);
-
-    if (response.statusCode == 200) {
+    var response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(request.toJson()),
+    );
+    print('');
+    if (response.statusCode == 200 || response.statusCode == 201) {
       var jsonResponse = jsonDecode(response.body);
       print(jsonResponse);
       return Schedule.fromJson(jsonResponse);

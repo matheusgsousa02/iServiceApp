@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:iservice_application/Models/address.dart';
+import 'package:iservice_application/Models/appointment.dart';
 import 'package:iservice_application/Models/client_profile.dart';
 import 'package:iservice_application/Models/establishment_profile.dart';
 import 'package:iservice_application/Models/user.dart';
@@ -8,6 +9,7 @@ import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Models/user_role.dart';
 import 'package:iservice_application/Services/Utils/Calendar.dart';
 import 'package:iservice_application/Services/Utils/CalendarController.dart';
+import 'package:iservice_application/Views/Establishment_Services/appointment-page.dart';
 import 'package:iservice_application/Views/Establishment_Services/service-page.dart';
 import 'package:iservice_application/Views/Login/login-home-page.dart';
 import 'package:iservice_application/Views/Login/login-profile-choice.dart';

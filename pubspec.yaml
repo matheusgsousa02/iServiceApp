@@ -38,6 +38,7 @@ dependencies:
   table_calendar: ^3.0.9
   flutter_cupertino_date_picker_fork: ^1.0.7
   get: ^4.6.6
+  dots_indicator: ^2.0.0
   
   flutter_localizations:
     sdk: flutter

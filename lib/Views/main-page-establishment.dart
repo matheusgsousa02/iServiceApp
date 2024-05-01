@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iservice_application/Models/user_info.dart';
+import 'package:iservice_application/Views/Establishment_MyEstablishment/catalog.dart';
 import 'package:iservice_application/Views/Establishment_MyEstablishment/my-establishment.dart';
 import 'package:iservice_application/Views/Establishment_Profile/establishment-profile.dart';
 import 'package:iservice_application/Views/Establishment_Services/schedules.dart';
@@ -21,8 +22,8 @@ class _MainPageEstablishmentState extends State<MainPageEstablishment> {
   late List<Widget> _pages = <Widget>[
     HomePageEstablishment(userInfo: widget.userInfo),
     Schedules(),
+    Catalog(userInfo: widget.userInfo),
     MyEstablishment(userInfo: widget.userInfo),
-    EstablishmentProfile(),
   ];
 
   void _onItemTapped(int index) {
@@ -55,12 +56,12 @@ class _MainPageEstablishmentState extends State<MainPageEstablishment> {
               label: 'Agendamentos',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.store),
-              label: 'Meu Estabelecimento',
+              icon: Icon(Icons.view_list),
+              label: 'Catálogo',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
-              label: 'Perfil',
+              icon: Icon(Icons.store),
+              label: 'Meu Estabelecimento',
             ),
           ],
           currentIndex: _selectedIndex,

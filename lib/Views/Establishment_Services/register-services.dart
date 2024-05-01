@@ -60,11 +60,9 @@ class _RegisterServicesState extends State<RegisterServices> {
         _image = File(pickedImage.path);
       });
 
-      // Converte a imagem para base64
       List<int> imageBytes = await pickedImage.readAsBytes();
       String base64Image = base64Encode(imageBytes);
 
-      // Atualiza o atributo bytes com a imagem em base64
       setState(() {
         bytes = base64Image;
       });

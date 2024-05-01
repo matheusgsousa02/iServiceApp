@@ -57,9 +57,7 @@ class _RegisterTimeState extends State<RegisterTime> {
   void atualizarEstadoCampos() {
     setState(() {
       filledFields = timeStartController.text.isNotEmpty &&
-          timeEndController.text.isNotEmpty &&
-          timeBreakStartController.text.isNotEmpty &&
-          timeBreakEndController.text.isNotEmpty;
+          timeEndController.text.isNotEmpty;
       if (filledFields) {
         atualizarMensagemErro('');
       }
@@ -218,7 +216,7 @@ class _RegisterTimeState extends State<RegisterTime> {
                           breakStart: timeBreakStartController.text,
                           breakEnd: timeBreakEndController.text,
                         );
-
+                        request.days = request.days.replaceAll(" ", "");
                         await ScheduleServices()
                             .addSchedule(request)
                             .then((Schedule schedule) {

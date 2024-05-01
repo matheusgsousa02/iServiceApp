@@ -18,28 +18,37 @@ class _CalendarScreenState extends State<CalendarScreen> {
       ),
       body: Column(
         children: [
-          TableCalendar(
-            firstDay: DateTime.utc(2020, 1, 1),
-            lastDay: DateTime.utc(2030, 12, 31),
-            focusedDay: _selectedDay,
-            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-            onDaySelected: (selectedDay, focusedDay) {
-              setState(() {
-                _selectedDay = selectedDay;
-                // _fetchAvailableTimes();
-              });
-            },
-          ),
           Expanded(
-            child: ListView.builder(
-              itemCount: _availableTimes.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(_availableTimes[index]),
-                );
+            child: TableCalendar(
+              firstDay: DateTime.utc(2020, 1, 1),
+              lastDay: DateTime.utc(2030, 12, 31),
+              focusedDay: _selectedDay,
+              selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+              onDaySelected: (selectedDay, focusedDay) {
+                setState(() {
+                  _selectedDay = selectedDay;
+                  // _fetchAvailableTimes();
+                });
               },
             ),
           ),
+          if (_availableTimes.isNotEmpty)
+            Expanded(
+              child: ListView.builder(
+                itemCount: _availableTimes.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(_availableTimes[index]),
+                  );
+                },
+              ),
+            ),
+          if (_availableTimes.isEmpty)
+            Expanded(
+              child: Center(
+                child: Text('Nenhum horário disponível'),
+              ),
+            ),
         ],
       ),
     );

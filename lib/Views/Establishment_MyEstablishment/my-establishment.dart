@@ -112,51 +112,6 @@ class _MyEstablishmentState extends State<MyEstablishment> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 5),
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    padding: const EdgeInsets.all(20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              Catalog(userInfo: widget.userInfo)),
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/lista.png',
-                        width: 29,
-                        height: 29,
-                      ),
-                      const SizedBox(width: 16),
-                      const Expanded(
-                        child: Text(
-                          "Catálogo",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.black,
-                        size: 20,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
                 padding: const EdgeInsets.only(left: 7),
                 child: TextButton(
                   style: TextButton.styleFrom(

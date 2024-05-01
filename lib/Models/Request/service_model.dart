@@ -5,10 +5,10 @@ class ServiceModel {
   int serviceCategoryId;
   String name;
   String description;
-  double price; // Decimal em C# é convertido para double em Dart
-  double estimatedDuration;
-  String? imagePath; // Para armazenar o caminho do arquivo da imagem
-  List<int>? photo; // Para armazenar dados binários
+  double price;
+  int estimatedDuration;
+  String? imagePath;
+  List<int>? photo;
 
   ServiceModel({
     required this.establishmentProfileId,
@@ -29,8 +29,7 @@ class ServiceModel {
       'Description': description,
       'Price': price,
       'EstimatedDuration': estimatedDuration,
-      'ImagePath':
-          imagePath, // Incluído para completude mas não usado tipicamente em envio de arquivos
+      'ImagePath': imagePath,
     };
   }
 
@@ -40,9 +39,8 @@ class ServiceModel {
       serviceCategoryId: json['ServiceCategoryId'],
       name: json['Name'],
       description: json['Description'],
-      price: json['Price']?.toDouble() ??
-          0.0, // Assegurando que o valor é um double
-      estimatedDuration: json['EstimatedDuration']?.toDouble() ?? 0.0,
+      price: json['Price']?.toDouble() ?? 0.0,
+      estimatedDuration: (json['estimatedDuration'] as num).toInt(),
       imagePath: json['ImagePath'],
     );
   }

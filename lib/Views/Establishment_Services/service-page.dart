@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iservice_application/Models/user_info.dart';
+import 'package:iservice_application/Services/Utils/Calendar.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_cupertino_date_picker_fork/flutter_cupertino_date_picker_fork.dart'
     as CupertinoDatePicker;
@@ -141,7 +142,7 @@ class _ServicePageState extends State<ServicePage> {
                           context: context,
                           builder: (BuildContext context) {
                             return Container(
-                              height: 200,
+                              height: MediaQuery.of(context).size.height,
                               width: MediaQuery.of(context).size.width,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
