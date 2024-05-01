@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:iservice_application/Models/Request/appointment_model.dart';
+import 'package:iservice_application/Models/appointment.dart';
+import 'package:iservice_application/Models/service.dart';
 import 'package:iservice_application/Models/user_info.dart';
+import 'package:iservice_application/Services/appointment_services.dart';
+import 'package:iservice_application/Services/service_services.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 
 class AppointmentPage extends StatefulWidget {
   final UserInfo userInfo;
+  final Service service;
 
-  AppointmentPage({required this.userInfo, Key? key}) : super(key: key);
+  AppointmentPage({required this.userInfo, required this.service, Key? key})
+      : super(key: key);
 
   @override
   _AppointmentPageState createState() => _AppointmentPageState();
@@ -14,42 +21,52 @@ class AppointmentPage extends StatefulWidget {
 
 class _AppointmentPageState extends State<AppointmentPage> {
   DateTime _selectedDay = DateTime.now();
-  List<String> _availableTimes = [];
+  Future<List<String>> _availableTimes = Future.value([]);
   String? _selectedTime;
   final PageController _pageController = PageController();
   double _currentIndex = 0;
   bool filledFields = false;
+  String mensagemErro = '';
 
   @override
   void initState() {
     super.initState();
-    _fetchAvailableTimes();
   }
 
-  void _fetchAvailableTimes() {
-    List<String> fictitiousTimes = [
-      '08:00',
-      '09:00',
-      '10:00',
-      '11:00',
-      '12:00',
-      '13:00',
-      '14:00',
-      '15:00',
-      '16:00',
-      '17:00',
-      '18:00',
-      '19:00'
-    ];
+  void fetchAvailableTimes() {
+    print(widget.service);
 
+    ServiceServices()
+        .getAvailableTimes(widget.service.serviceId, _selectedDay)
+        .then((List<String> availableTimes) {
+      setState(() {
+        _availableTimes = Future.value(availableTimes);
+      });
+    }).catchError((e) {
+      print(e.toString());
+      setState(() {
+        _availableTimes = Future.value([]);
+      });
+    });
+  }
+
+  void atualizarMensagemErro(String mensagem) {
     setState(() {
-      _availableTimes = fictitiousTimes;
+      mensagemErro = mensagem;
+    });
+  }
+
+  void atualizarEstadoCampos() {
+    setState(() {
+      filledFields = _selectedTime != null && _selectedTime!.isNotEmpty;
+      if (filledFields) {
+        atualizarMensagemErro('');
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    int gridCount = (_availableTimes.length / 8).ceil();
     return Scaffold(
       appBar: AppBar(
         title: Align(
@@ -59,14 +76,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
           ),
         ),
         leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_back_ios_new,
-            size: 20,
-            color: Colors.black,
-          ),
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(Icons.arrow_back_ios_new, color: Colors.black),
         ),
       ),
       body: SingleChildScrollView(
@@ -97,7 +108,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
                   onDaySelected: (selectedDay, focusedDay) {
                     setState(() {
                       _selectedDay = selectedDay;
-                      _fetchAvailableTimes();
+
+                      fetchAvailableTimes();
                     });
                   },
                   headerStyle: HeaderStyle(
@@ -132,66 +144,171 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 ),
               ),
               SizedBox(height: 20),
-              Container(
-                height: 120,
-                child: PageView.builder(
-                  controller: _pageController,
-                  onPageChanged: (index) {
-                    setState(() {
-                      _currentIndex = index.toDouble();
-                    });
-                  },
-                  itemCount: gridCount,
-                  itemBuilder: (context, index) {
-                    int start = index * 8;
-                    int end = (start + 8 > _availableTimes.length)
-                        ? _availableTimes.length
-                        : start + 8;
-                    return GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        childAspectRatio: 2,
-                      ),
-                      itemCount: end - start,
-                      itemBuilder: (context, i) {
-                        String time = _availableTimes[start + i];
-                        return ChoiceChip(
-                          label: Text(time),
-                          selected: _selectedTime == time,
-                          onSelected: (bool selected) {
-                            setState(() {
-                              _selectedTime = time;
-                            });
-                          },
-                          selectedColor: Color(0xFF2864ff),
-                          labelStyle: TextStyle(
-                            color: _selectedTime == time
-                                ? Colors.white
-                                : Colors.black,
-                            fontWeight: _selectedTime == time
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                          ),
-                          backgroundColor: Colors.white,
-                        );
-                      },
-                    );
-                  },
-                ),
-              ),
-              DotsIndicator(
-                dotsCount: gridCount,
-                position: _currentIndex,
-                decorator: DotsDecorator(
-                  activeColor: Color(0xFF2864ff),
-                ),
+              FutureBuilder<List<String>>(
+                future: _availableTimes,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text("Erro: ${snapshot.error}");
+                  } else if (snapshot.data!.isEmpty) {
+                    return Text("Não há horários disponíveis",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red));
+                  } else {
+                    var times = snapshot.data ?? [];
+                    int gridCount = (times.length / 8).ceil();
+                    return gridCount > 0
+                        ? Column(
+                            children: [
+                              Container(
+                                height: 120,
+                                child: PageView.builder(
+                                  controller: _pageController,
+                                  onPageChanged: (index) {
+                                    setState(() {
+                                      _currentIndex = index.toDouble();
+                                    });
+                                  },
+                                  itemCount: gridCount,
+                                  itemBuilder: (context, index) {
+                                    int start = index * 8;
+                                    int end = (start + 8 > times.length)
+                                        ? times.length
+                                        : start + 8;
+                                    return GridView.builder(
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 4,
+                                        childAspectRatio: 2,
+                                      ),
+                                      itemCount: end - start,
+                                      itemBuilder: (context, i) {
+                                        String time = times[start + i];
+                                        return ChoiceChip(
+                                          label: Text(time),
+                                          selected: _selectedTime == time,
+                                          onSelected: (bool selected) {
+                                            setState(() {
+                                              _selectedTime = time;
+                                              filledFields =
+                                                  _selectedTime != null &&
+                                                      _selectedTime!.isNotEmpty;
+                                              if (filledFields) {
+                                                atualizarMensagemErro('');
+                                              } else {
+                                                atualizarMensagemErro(
+                                                    'Por favor, selecione um horário antes de finalizar.');
+                                              }
+                                            });
+                                          },
+                                          selectedColor: Color(0xFF2864ff),
+                                          labelStyle: TextStyle(
+                                            color: _selectedTime == time
+                                                ? Colors.white
+                                                : Colors.black,
+                                            fontWeight: _selectedTime == time
+                                                ? FontWeight.bold
+                                                : FontWeight.normal,
+                                          ),
+                                          backgroundColor: Colors.white,
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                              DotsIndicator(
+                                dotsCount: gridCount,
+                                position: _currentIndex,
+                                decorator: DotsDecorator(
+                                  activeColor: Color(0xFF2864ff),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Container();
+                  }
+                },
               ),
               SizedBox(height: 20),
               MaterialButton(
                 minWidth: double.infinity,
                 height: 60,
                 onPressed: () async {
-                  if (!filledFields) {}
+                  if (_selectedTime == null) {
+                    atualizarMensagemErro(
+                        'Por favor, selecione um horário antes de finalizar.');
+                    return;
+                  }
+
+                  try {
+                    // Extrai a hora e minuto de _selectedTime
+                    List<String> timeParts = _selectedTime!.split(':');
+                    int hour = int.parse(timeParts[0]);
+                    int minute = int.parse(timeParts[1]);
+
+                    // Combina _selectedDay com a hora e minuto extraídos para formar o startTime
+                    DateTime startTime = DateTime(
+                      _selectedDay.year,
+                      _selectedDay.month,
+                      _selectedDay.day,
+                      hour,
+                      minute,
+                    ).toUtc();
+
+                    print(startTime);
+                    int durationInMinutes = widget.service.estimatedDuration;
+                    DateTime endTime =
+                        startTime.add(Duration(minutes: durationInMinutes));
+
+                    String formattedStartTime = startTime.toIso8601String();
+                    String formattedEndTime = endTime.toIso8601String();
+
+                    DateTime parsedStartTime =
+                        DateTime.parse(formattedStartTime);
+                    DateTime parsedEndTime = DateTime.parse(formattedEndTime);
+
+                    print(formattedStartTime);
+                    print(parsedEndTime);
+
+                    AppointmentModel request = AppointmentModel(
+                        serviceId: widget.service.serviceId,
+                        clientProfileId:
+                            widget.userInfo.clientProfile!.clientProfileId,
+                        establishmentProfileId: widget.userInfo
+                            .establishmentProfile!.establishmentProfileId,
+                        appointmentStatusId: 1,
+                        start: startTime,
+                        end: endTime);
+
+                    await AppointmentServices()
+                        .addAppointment(request)
+                        .then((Appointment appointment) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Dados cadastrados com sucesso',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          duration: Duration(seconds: 3),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                    }).catchError((e) {
+                      print('Erro ao registrar servidor: $e');
+                      atualizarMensagemErro('Erro ao registrar servidor: $e');
+                    });
+                  } catch (error) {
+                    print("Erro capturado durante a execução: $error");
+                    atualizarMensagemErro('Erro ao registrar servidor: $error');
+                  }
                 },
                 color: filledFields ? const Color(0xFF2864ff) : Colors.grey,
                 shape: RoundedRectangleBorder(

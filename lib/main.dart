@@ -4,6 +4,7 @@ import 'package:iservice_application/Models/address.dart';
 import 'package:iservice_application/Models/appointment.dart';
 import 'package:iservice_application/Models/client_profile.dart';
 import 'package:iservice_application/Models/establishment_profile.dart';
+import 'package:iservice_application/Models/service.dart';
 import 'package:iservice_application/Models/user.dart';
 import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Models/user_role.dart';
@@ -74,6 +75,16 @@ class MyApp extends StatelessWidget {
         clientProfile: null,
         address: address);
 
+    Service service = Service(
+        serviceId: 15,
+        establishmentProfileId: 1,
+        serviceCategoryId: 1,
+        name: 'oi',
+        description: 'description',
+        price: 55,
+        estimatedDuration: 120,
+        creationDate: DateTime.now());
+
     return MaterialApp(
       locale: const Locale('pt', 'BR'),
       localizationsDelegates: const [
@@ -86,7 +97,10 @@ class MyApp extends StatelessWidget {
       ],
       title: 'iService',
       theme: ThemeData(),
-      home: MainPageEstablishment(userInfo: userInfo),
+      home: AppointmentPage(
+        userInfo: userInfo,
+        service: service,
+      ),
     );
   }
 }

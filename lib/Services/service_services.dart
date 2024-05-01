@@ -126,7 +126,7 @@ class ServiceServices {
 
     var response =
         await http.get(url, headers: {'Content-Type': 'application/json'});
-
+    print('oi');
     if (response.statusCode == 200) {
       List jsonResponse = jsonDecode(response.body) as List;
       print(jsonResponse);
