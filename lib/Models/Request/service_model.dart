@@ -8,7 +8,6 @@ class ServiceModel {
   double price;
   int estimatedDuration;
   String? imagePath;
-  List<int>? photo;
 
   ServiceModel({
     required this.establishmentProfileId,
@@ -18,7 +17,6 @@ class ServiceModel {
     required this.price,
     required this.estimatedDuration,
     this.imagePath,
-    this.photo,
   });
 
   Map<String, dynamic> toJson() {

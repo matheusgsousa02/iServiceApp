@@ -30,7 +30,7 @@ class ServiceServices {
     var response =
         await http.get(url, headers: {'Content-Type': 'application/json'});
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       List jsonResponse = jsonDecode(response.body) as List;
       print(jsonResponse);
       return jsonResponse
@@ -80,7 +80,7 @@ class ServiceServices {
 
     if (request.imagePath != null) {
       multipartRequest.files
-          .add(await http.MultipartFile.fromPath('Image', request.imagePath!));
+          .add(await http.MultipartFile.fromPath('File', request.imagePath!));
     }
 
     http.StreamedResponse streamedResponse = await multipartRequest.send();
@@ -126,7 +126,7 @@ class ServiceServices {
 
     var response =
         await http.get(url, headers: {'Content-Type': 'application/json'});
-    print('oi');
+
     if (response.statusCode == 200) {
       List jsonResponse = jsonDecode(response.body) as List;
       print(jsonResponse);

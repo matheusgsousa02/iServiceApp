@@ -9,7 +9,7 @@ class Service {
   String description;
   double price;
   int estimatedDuration;
-  Uint8List? photo;
+  String? photo;
   DateTime creationDate;
   DateTime? lastUpdateDate;
 
@@ -34,9 +34,7 @@ class Service {
         description: json['description'] as String,
         price: (json['price'] as num).toDouble(),
         estimatedDuration: json['estimatedDuration'] as int,
-        photo: json['photo'] == null
-            ? null
-            : Uint8List.fromList(base64.decode(json['photo'])),
+        photo: json['photo'] == null ? null : json['photo'] as String,
         creationDate: DateTime.parse(json['creationDate'] as String),
         lastUpdateDate: json['lastUpdateDate'] == null
             ? null
@@ -51,7 +49,7 @@ class Service {
         'description': description,
         'price': price,
         'estimatedDuration': estimatedDuration,
-        'photo': photo?.toList(),
+        'photo': photo,
         'creationDate': creationDate.toIso8601String(),
         'lastUpdateDate': lastUpdateDate?.toIso8601String(),
       };

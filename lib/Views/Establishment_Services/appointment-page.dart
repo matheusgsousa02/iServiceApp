@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:iservice_application/Models/Request/appointment_model.dart';
 import 'package:iservice_application/Models/appointment.dart';
 import 'package:iservice_application/Models/service.dart';
@@ -31,6 +32,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
   @override
   void initState() {
     super.initState();
+    _selectedDay = DateTime.now();
+    fetchAvailableTimes();
   }
 
   void fetchAvailableTimes() {
@@ -245,34 +248,18 @@ class _AppointmentPageState extends State<AppointmentPage> {
                   }
 
                   try {
-                    // Extrai a hora e minuto de _selectedTime
-                    List<String> timeParts = _selectedTime!.split(':');
-                    int hour = int.parse(timeParts[0]);
-                    int minute = int.parse(timeParts[1]);
+                    DateFormat timeFormat = DateFormat("HH:mm");
+                    DateTime time = timeFormat.parse(_selectedTime!);
 
-                    // Combina _selectedDay com a hora e minuto extraídos para formar o startTime
-                    DateTime startTime = DateTime(
+                    DateTime startDateTime = DateTime(
                       _selectedDay.year,
                       _selectedDay.month,
                       _selectedDay.day,
-                      hour,
-                      minute,
-                    ).toUtc();
-
-                    print(startTime);
-                    int durationInMinutes = widget.service.estimatedDuration;
-                    DateTime endTime =
-                        startTime.add(Duration(minutes: durationInMinutes));
-
-                    String formattedStartTime = startTime.toIso8601String();
-                    String formattedEndTime = endTime.toIso8601String();
-
-                    DateTime parsedStartTime =
-                        DateTime.parse(formattedStartTime);
-                    DateTime parsedEndTime = DateTime.parse(formattedEndTime);
-
-                    print(formattedStartTime);
-                    print(parsedEndTime);
+                      time.hour,
+                      time.minute,
+                    );
+                    DateTime endDateTime = startDateTime.add(
+                        Duration(minutes: widget.service.estimatedDuration));
 
                     AppointmentModel request = AppointmentModel(
                         serviceId: widget.service.serviceId,
@@ -281,8 +268,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
                         establishmentProfileId: widget.userInfo
                             .establishmentProfile!.establishmentProfileId,
                         appointmentStatusId: 1,
-                        start: startTime,
-                        end: endTime);
+                        start: startDateTime,
+                        end: endDateTime);
 
                     await AppointmentServices()
                         .addAppointment(request)

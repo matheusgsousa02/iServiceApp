@@ -118,6 +118,7 @@ class _CatalogState extends State<Catalog> {
                       return ServiceCard(
                         serviceName: service.name,
                         serviceDuration: '${service.estimatedDuration} minutos',
+                        serviceImage: service.photo ?? null,
                         onTapEdit: () {
                           // Lógica para editar o serviço
                         },

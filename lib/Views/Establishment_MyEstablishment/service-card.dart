@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class ServiceCard extends StatelessWidget {
   final String serviceName;
   final String serviceDuration;
+  final String? serviceImage;
   final VoidCallback? onTapEdit;
   final VoidCallback? onTapRemove;
 
   const ServiceCard({
     required this.serviceName,
     required this.serviceDuration,
+    this.serviceImage,
     this.onTapEdit,
     this.onTapRemove,
   });
@@ -35,7 +37,9 @@ class ServiceCard extends StatelessWidget {
           InkWell(
             onTap: () {},
             child: Container(
-              child: Image.asset('assets/testeCorte.jpeg'),
+              child: serviceImage == null
+                  ? Image.asset('assets/testeCorte.jpeg') // Imagem padrão
+                  : Image.network(serviceImage!), // Imagem da web
               width: 155,
               height: 155,
               alignment: Alignment.center,

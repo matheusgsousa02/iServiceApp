@@ -72,11 +72,11 @@ class MyApp extends StatelessWidget {
         user: user,
         userRole: userRole,
         establishmentProfile: establishmentProfile,
-        clientProfile: null,
+        clientProfile: clientProfile,
         address: address);
 
     Service service = Service(
-        serviceId: 15,
+        serviceId: 17,
         establishmentProfileId: 1,
         serviceCategoryId: 1,
         name: 'oi',

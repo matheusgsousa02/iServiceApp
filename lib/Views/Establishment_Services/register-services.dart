@@ -33,6 +33,7 @@ class _RegisterServicesState extends State<RegisterServices> {
   String mensagemErro = '';
   bool filledFields = false;
   File? _image;
+  String? imagePath;
   late String? bytes;
   TimeOfDay? _selectedTime = TimeOfDay.now();
   List<int> durationsInMinutes = List.generate(20, (index) => (index + 1) * 15);
@@ -57,6 +58,7 @@ class _RegisterServicesState extends State<RegisterServices> {
 
     if (pickedImage != null) {
       setState(() {
+        imagePath = pickedImage.path;
         _image = File(pickedImage.path);
       });
 
@@ -394,6 +396,7 @@ class _RegisterServicesState extends State<RegisterServices> {
                               description: descriptionController.text,
                               price: doubleValue,
                               estimatedDuration: widget.selectedDuration!,
+                              imagePath: imagePath,
                             );
                             print(widget.selectedDuration);
                             await ServiceServices()

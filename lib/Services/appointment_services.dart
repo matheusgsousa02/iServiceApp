@@ -28,8 +28,11 @@ class AppointmentServices {
     print('Request Data: ${jsonEncode(request)}');
 
     var url = Uri.parse('http://10.0.2.2:5120/Appointment');
-    var response = await http.post(url,
-        headers: {'Content-Type': 'application/json'}, body: request);
+    var response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(request.toJson()),
+    );
 
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body);
@@ -47,8 +50,11 @@ class AppointmentServices {
 
     var url =
         Uri.parse('http://10.0.2.2:5120/Appointment/${request.appointmentId}');
-    var response = await http.put(url,
-        headers: {'Content-Type': 'application/json'}, body: request);
+    var response = await http.put(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(request.toJson()),
+    );
 
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body);
