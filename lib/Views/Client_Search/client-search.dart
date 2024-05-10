@@ -1,38 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:iservice_application/Models/establishment_category.dart';
+import 'package:iservice_application/Models/user_info.dart';
+import 'package:iservice_application/Services/user_services.dart';
+import 'package:iservice_application/Views/Client_Search/establishment-category.dart';
 
 class SearchPage extends StatefulWidget {
-  SearchPage({Key? key}) : super(key: key);
+  final UserInfo userInfo;
 
-  List category = [
-    "Categoria 1",
-    "Categoria 2",
-    "Categoria 3",
-    "Categoria 4",
+  const SearchPage({required this.userInfo, Key? key}) : super(key: key);
+
+  static final List<Color> colors = [
+    Colors.blue,
+    Colors.red,
+    Colors.yellow,
+    Colors.purple
   ];
-
-  List<Color> colors = [Colors.blue, Colors.red, Colors.yellow, Colors.purple];
-
-  List<Icon> icon = [
-    Icon(
-      Icons.video_library,
-      color: Colors.white,
-      size: 35,
-    ),
-    Icon(
-      Icons.video_library,
-      color: Colors.white,
-      size: 35,
-    ),
-    Icon(
-      Icons.video_library,
-      color: Colors.white,
-      size: 35,
-    ),
-    Icon(
-      Icons.video_library,
-      color: Colors.white,
-      size: 35,
-    ),
+  static final List<IconData> icons = [
+    Icons.content_cut,
+    Icons.shopping_cart,
+    Icons.local_hospital,
+    Icons.restaurant_menu
   ];
 
   @override
@@ -43,6 +30,13 @@ class _SearchPageState extends State<SearchPage> {
   TextEditingController _searchController = TextEditingController();
   FocusNode _searchFocusNode = FocusNode();
   bool _isSearchSelected = false;
+  late Future<List<EstablishmentCategory>> _categoryFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _categoryFuture = UserServices().getEstablishmentCategories();
+  }
 
   @override
   void dispose() {
@@ -109,15 +103,13 @@ class _SearchPageState extends State<SearchPage> {
                       : null,
                   border: InputBorder.none,
                   filled: true,
-                  fillColor: Colors
-                      .transparent, // Removendo a cor de fundo do TextField
+                  fillColor: Colors.transparent,
                   hintStyle: TextStyle(color: Colors.grey[600]),
                 ),
                 onChanged: (value) {
                   setState(() {
                     _isSearchSelected = true;
                   });
-                  // Aqui você pode fazer algo com o valor de pesquisa conforme o usuário digita
                 },
                 onTap: () {
                   setState(() {
@@ -127,48 +119,80 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
           ),
-          _isSearchSelected ? SizedBox(height: 8) : Container(),
-          _isSearchSelected
-              ? Container(
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Busca recente"),
-                      SizedBox(height: 10),
-                      // Aqui você pode exibir a lista de pesquisas recentes
-                    ],
-                  ),
-                )
-              : Container(),
-          _isSearchSelected ? SizedBox(height: 8) : Container(),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GridView.builder(
-                itemCount: widget.category.length,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 1.6,
-                ),
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      Container(
-                        height: 100,
-                        width: 180,
-                        decoration: BoxDecoration(
-                          color: widget.colors[index],
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
+            child: FutureBuilder<List<EstablishmentCategory>>(
+              future: _categoryFuture,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  var categories = snapshot.data!;
+                  return Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: GridView.builder(
+                      itemCount: categories.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 1.9,
+                        crossAxisSpacing: 20,
+                        mainAxisSpacing: 20,
                       ),
-                    ],
+                      itemBuilder: (context, index) {
+                        var category = categories[index].name;
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      EstablishmentCategoryPage(
+                                          userInfo: widget.userInfo,
+                                          establishmentCategory:
+                                              categories[index])),
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: SearchPage
+                                  .colors[index % SearchPage.colors.length],
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    SearchPage
+                                        .icons[index % SearchPage.icons.length],
+                                    size: 25,
+                                    color: SearchPage.colors[
+                                        index % SearchPage.colors.length],
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  category ?? 'Categoria Desconhecida',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   );
-                },
-              ),
+                } else if (snapshot.hasError) {
+                  return Center(child: Text("Erro ao carregar dados"));
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
             ),
           ),
         ],

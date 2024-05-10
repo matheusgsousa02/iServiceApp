@@ -39,6 +39,8 @@ dependencies:
   flutter_cupertino_date_picker_fork: ^1.0.7
   get: ^4.6.6
   dots_indicator: ^2.0.0
+  flutter_rating_bar: ^4.0.0
+  cached_network_image: ^3.2.0
   
   flutter_localizations:
     sdk: flutter
@@ -122,4 +124,5 @@ flutter:
   - assets/testeCorte.jpeg
   - assets/horarios.png
   - assets/lista.png
+  - assets/noimage.png
 

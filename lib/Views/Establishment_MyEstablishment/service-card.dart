@@ -38,8 +38,8 @@ class ServiceCard extends StatelessWidget {
             onTap: () {},
             child: Container(
               child: serviceImage == null
-                  ? Image.asset('assets/testeCorte.jpeg') // Imagem padrão
-                  : Image.network(serviceImage!), // Imagem da web
+                  ? Image.asset('assets/testeCorte.jpeg')
+                  : Image.network(serviceImage!),
               width: 155,
               height: 155,
               alignment: Alignment.center,

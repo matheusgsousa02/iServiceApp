@@ -11,7 +11,7 @@ class EstablishmentProfile {
   String description;
   String commercialPhone;
   String commercialEmail;
-  Uint8List? photo;
+  String? photo;
   DateTime creationDate;
   DateTime? lastUpdateDate;
 
@@ -41,9 +41,7 @@ class EstablishmentProfile {
         description: json['description'] as String,
         commercialPhone: json['commercialPhone'] as String,
         commercialEmail: json['commercialEmail'] as String,
-        photo: json['photo'] == null
-            ? null
-            : Uint8List.fromList(base64.decode(json['photo'])),
+        photo: json['photo'] == null ? null : json['photo'] as String,
         creationDate: DateTime.parse(json['creationDate'] as String),
         lastUpdateDate: json['lastUpdateDate'] == null
             ? null
@@ -60,7 +58,7 @@ class EstablishmentProfile {
         'description': description,
         'commercialPhone': commercialPhone,
         'commercialEmail': commercialEmail,
-        'photo': photo?.toList(),
+        'photo': photo,
         'creationDate': creationDate.toIso8601String(),
         'lastUpdateDate': lastUpdateDate?.toIso8601String(),
       };

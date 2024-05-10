@@ -11,16 +11,16 @@ class MainPageClient extends StatefulWidget {
   const MainPageClient({required this.userInfo, Key? key}) : super(key: key);
 
   @override
-  _MainPageClientState createState() => _MainPageClientState();
+  State<MainPageClient> createState() => _MainPageClientState();
 }
 
 class _MainPageClientState extends State<MainPageClient> {
   int _selectedIndex = 0;
 
-  List<Widget> _pages = <Widget>[
+  late List<Widget> _pages = <Widget>[
     HomePageClient(),
     Schedules(),
-    SearchPage(),
+    SearchPage(userInfo: widget.userInfo),
     ClientProfile(),
   ];
 

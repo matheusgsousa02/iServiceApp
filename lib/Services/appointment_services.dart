@@ -34,7 +34,7 @@ class AppointmentServices {
       body: jsonEncode(request.toJson()),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       var jsonResponse = jsonDecode(response.body);
       print(jsonResponse);
       return Appointment.fromJson(jsonResponse);

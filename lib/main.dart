@@ -10,8 +10,14 @@ import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Models/user_role.dart';
 import 'package:iservice_application/Services/Utils/Calendar.dart';
 import 'package:iservice_application/Services/Utils/CalendarController.dart';
+import 'package:iservice_application/Views/Client_Search/client-search.dart';
+import 'package:iservice_application/Views/Client_Search/Establishment_Catalog/establishment-catalog.dart';
+import 'package:iservice_application/Views/Client_Search/establishment-category.dart';
+import 'package:iservice_application/Views/Feedback/review-list.dart';
+import 'package:iservice_application/Views/Feedback/review-page.dart';
 import 'package:iservice_application/Views/Establishment_Services/appointment-page.dart';
 import 'package:iservice_application/Views/Establishment_Services/service-page.dart';
+import 'package:iservice_application/Views/Feedback/feedback-page.dart';
 import 'package:iservice_application/Views/Login/login-home-page.dart';
 import 'package:iservice_application/Views/Login/login-profile-choice.dart';
 import 'package:iservice_application/Views/main-page-establishment.dart';
@@ -86,21 +92,17 @@ class MyApp extends StatelessWidget {
         creationDate: DateTime.now());
 
     return MaterialApp(
-      locale: const Locale('pt', 'BR'),
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('pt', 'BR'),
-      ],
-      title: 'iService',
-      theme: ThemeData(),
-      home: AppointmentPage(
-        userInfo: userInfo,
-        service: service,
-      ),
-    );
+        locale: const Locale('pt', 'BR'),
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('pt', 'BR'),
+        ],
+        title: 'iService',
+        theme: ThemeData(),
+        home: EstablishmentCatalog(userInfo: userInfo));
   }
 }
