@@ -6,7 +6,7 @@ import 'package:iservice_application/Models/user.dart';
 import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Services/Utils/textFieldUtils.dart';
 import 'package:iservice_application/Services/user_services.dart';
-import 'package:iservice_application/Views/Client_Auth/address-register.dart';
+import 'package:iservice_application/Views/Address/address-register.dart';
 
 class EditPersonalEstablishment extends StatefulWidget {
   final UserInfo userInfo;

@@ -53,7 +53,9 @@ class _HomePageEstablishmentState extends State<HomePageEstablishment> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Schedules()),
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                Schedules(userInfo: widget.userInfo)),
                       );
                     },
                     child: Container(

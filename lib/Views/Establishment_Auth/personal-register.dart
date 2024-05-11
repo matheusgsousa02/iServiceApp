@@ -3,7 +3,7 @@ import 'package:iservice_application/Models/Request/establishment_profile_model.
 import 'package:iservice_application/Models/User/EstablishmentProfile.dart';
 import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Services/Utils/textFieldUtils.dart';
-import 'package:iservice_application/Views/Client_Auth/address-register.dart';
+import 'package:iservice_application/Views/Address/address-register.dart';
 
 class PersonalRegisterEstablishment extends StatefulWidget {
   final UserInfo userInfo;

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:iservice_application/Models/user_info.dart';
+import 'package:iservice_application/Views/Client_Profile/edit-personal-register.dart';
+import 'package:iservice_application/Views/Address/edit-address.dart';
 
 class ClientProfile extends StatefulWidget {
-  const ClientProfile({Key? key}) : super(key: key);
+  final UserInfo userInfo;
+  const ClientProfile({required this.userInfo, Key? key}) : super(key: key);
 
   @override
   State<ClientProfile> createState() => _ClientProfileState();
@@ -102,7 +106,14 @@ class _ClientProfileState extends State<ClientProfile> {
                       borderRadius: BorderRadius.circular(0),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              EditPersonalClient(userInfo: widget.userInfo)),
+                    );
+                  },
                   child: Row(
                     children: [
                       Image.asset(
@@ -131,44 +142,6 @@ class _ClientProfileState extends State<ClientProfile> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 7),
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    padding: const EdgeInsets.all(20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
-                    ),
-                  ),
-                  onPressed: () {},
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/contato.png',
-                        width: 27,
-                        height: 27,
-                      ),
-                      const SizedBox(width: 17),
-                      const Expanded(
-                        child: Text(
-                          "Dados de contato",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.black,
-                        size: 20,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
                 padding: const EdgeInsets.only(left: 8),
                 child: TextButton(
                   style: TextButton.styleFrom(
@@ -178,7 +151,14 @@ class _ClientProfileState extends State<ClientProfile> {
                       borderRadius: BorderRadius.circular(0),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              EditAddress(userInfo: widget.userInfo)),
+                    );
+                  },
                   child: Row(
                     children: [
                       Image.asset(
@@ -217,106 +197,11 @@ class _ClientProfileState extends State<ClientProfile> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20),
                   child: Text(
-                    'NOTIFICAÇÕES',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    padding: const EdgeInsets.all(20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
-                    ),
-                  ),
-                  onPressed: () {},
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/notificacao.png',
-                        width: 25,
-                        height: 25,
-                      ),
-                      const SizedBox(width: 18),
-                      const Expanded(
-                        child: Text(
-                          "Central de notificações",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.black,
-                        size: 20,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Text(
                     'CONFIGURAÇÕES',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.grey[600],
                     ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    padding: const EdgeInsets.all(20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
-                    ),
-                  ),
-                  onPressed: () {},
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/configuracao.png',
-                        width: 25,
-                        height: 25,
-                      ),
-                      const SizedBox(width: 18),
-                      const Expanded(
-                        child: Text(
-                          "Configurações de acesso",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.black,
-                        size: 20,
-                      )
-                    ],
                   ),
                 ),
               ),

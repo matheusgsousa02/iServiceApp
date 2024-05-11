@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Views/Establishment_Services/schedule-page.dart';
 import '../main-page-establishment.dart';
 
 class Schedules extends StatefulWidget {
-  const Schedules({Key? key}) : super(key: key);
+  final UserInfo userInfo;
+
+  const Schedules({required this.userInfo, Key? key}) : super(key: key);
 
   @override
   State<Schedules> createState() => _SchedulesState();
@@ -13,8 +15,8 @@ class Schedules extends StatefulWidget {
 class _SchedulesState extends State<Schedules> {
   int buttonIndexMenu = 0;
 
-  final List<Widget> _scheduleWidgets = [
-    SchedulePage(),
+  late List<Widget> _scheduleWidgets = [
+    SchedulePage(userInfo: widget.userInfo),
     Container(
       child: Text("Completo"),
     ),
@@ -45,128 +47,68 @@ class _SchedulesState extends State<Schedules> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios_new,
             size: 20,
             color: Colors.black,
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
+      body: Column(
+        children: [
+          const SizedBox(height: 20),
+          Container(
+            padding: const EdgeInsets.all(5),
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              color: Color.fromARGB(100, 216, 218, 221),
+              borderRadius: BorderRadius.circular(10),
             ),
-            SizedBox(height: 20),
-            Container(
-              padding: EdgeInsets.all(5),
-              margin: EdgeInsets.symmetric(horizontal: 10),
-              decoration: BoxDecoration(
-                color: Color.fromARGB(100, 216, 218, 221),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(
-                children: [
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          buttonIndexMenu = 0;
-                        });
-                      },
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 22),
-                        decoration: BoxDecoration(
-                          color: buttonIndexMenu == 0
-                              ? Color(0xFF2864ff)
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Text(
-                          "Agendado",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: buttonIndexMenu == 0
-                                ? Colors.white
-                                : Colors.black54,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          buttonIndexMenu = 1;
-                        });
-                      },
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 22),
-                        decoration: BoxDecoration(
-                          color: buttonIndexMenu == 1
-                              ? Color(0xFF2864ff)
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Text(
-                          "Finalizado",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: buttonIndexMenu == 1
-                                ? Colors.white
-                                : Colors.black54,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          buttonIndexMenu = 2;
-                        });
-                      },
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 22),
-                        decoration: BoxDecoration(
-                          color: buttonIndexMenu == 2
-                              ? Color(0xFF2864ff)
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Text(
-                          "Cancelado",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: buttonIndexMenu == 2
-                                ? Colors.white
-                                : Colors.black54,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+            child: Row(
+              children: [
+                _buildButton(context, "Agendado", 0),
+                const SizedBox(width: 10),
+                _buildButton(context, "Finalizado", 1),
+                const SizedBox(width: 10),
+                _buildButton(context, "Cancelado", 2),
+              ],
             ),
-            SizedBox(height: 30),
-            _scheduleWidgets[buttonIndexMenu],
-          ],
+          ),
+          const SizedBox(height: 30),
+          Expanded(
+            // Envolve o widget selecionado com um Expanded
+            child: _scheduleWidgets[buttonIndexMenu],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildButton(BuildContext context, String text, int index) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            buttonIndexMenu = index;
+          });
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 22),
+          decoration: BoxDecoration(
+            color: buttonIndexMenu == index
+                ? Color(0xFF2864ff)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: buttonIndexMenu == index ? Colors.white : Colors.black54,
+            ),
+          ),
         ),
       ),
     );

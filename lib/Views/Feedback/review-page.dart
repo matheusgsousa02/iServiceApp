@@ -150,7 +150,8 @@ class _ReviewPageState extends State<ReviewPage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomePageClient()));
+                                      builder: (context) => HomePageClient(
+                                          userInfo: widget.userInfo)));
                             },
                             color: const Color(0xFF2864ff),
                             shape: RoundedRectangleBorder(

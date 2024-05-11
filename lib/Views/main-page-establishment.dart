@@ -21,7 +21,7 @@ class _MainPageEstablishmentState extends State<MainPageEstablishment> {
 
   late List<Widget> _pages = <Widget>[
     HomePageEstablishment(userInfo: widget.userInfo),
-    Schedules(),
+    Schedules(userInfo: widget.userInfo),
     Catalog(userInfo: widget.userInfo),
     MyEstablishment(userInfo: widget.userInfo),
   ];

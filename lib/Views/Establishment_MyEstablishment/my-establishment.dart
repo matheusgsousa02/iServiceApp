@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Views/Establishment_MyEstablishment/catalog.dart';
-import 'package:iservice_application/Views/Establishment_MyEstablishment/edit-address.dart';
+import 'package:iservice_application/Views/Address/edit-address.dart';
 import 'package:iservice_application/Views/Establishment_MyEstablishment/edit-personal-register.dart';
 import 'package:iservice_application/Views/Establishment_MyEstablishment/register-time.dart';
 

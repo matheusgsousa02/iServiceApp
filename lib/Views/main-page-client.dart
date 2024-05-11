@@ -18,10 +18,10 @@ class _MainPageClientState extends State<MainPageClient> {
   int _selectedIndex = 0;
 
   late List<Widget> _pages = <Widget>[
-    HomePageClient(),
-    Schedules(),
+    HomePageClient(userInfo: widget.userInfo),
+    Schedules(userInfo: widget.userInfo),
     SearchPage(userInfo: widget.userInfo),
-    ClientProfile(),
+    ClientProfile(userInfo: widget.userInfo),
   ];
 
   void _onItemTapped(int index) {

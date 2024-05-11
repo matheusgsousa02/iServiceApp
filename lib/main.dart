@@ -20,6 +20,7 @@ import 'package:iservice_application/Views/Establishment_Services/service-page.d
 import 'package:iservice_application/Views/Feedback/feedback-page.dart';
 import 'package:iservice_application/Views/Login/login-home-page.dart';
 import 'package:iservice_application/Views/Login/login-profile-choice.dart';
+import 'package:iservice_application/Views/main-page-client.dart';
 import 'package:iservice_application/Views/main-page-establishment.dart';
 import 'Views/Login/login-page.dart';
 
@@ -103,6 +104,6 @@ class MyApp extends StatelessWidget {
         ],
         title: 'iService',
         theme: ThemeData(),
-        home: EstablishmentCatalog(userInfo: userInfo));
+        home: MainPageClient(userInfo: userInfo));
   }
 }

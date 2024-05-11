@@ -4,9 +4,9 @@ import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Views/Establishment_Services/schedules.dart';
 
 class HomePageClient extends StatefulWidget {
-  final UserInfo? userInfo;
+  final UserInfo userInfo;
 
-  const HomePageClient({this.userInfo, Key? key}) : super(key: key);
+  const HomePageClient({required this.userInfo, Key? key}) : super(key: key);
 
   @override
   State<HomePageClient> createState() => _HomePageClientState();
@@ -56,7 +56,9 @@ class _HomePageClientState extends State<HomePageClient> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Schedules()),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Schedules(userInfo: widget.userInfo)),
                     );
                   },
                   child: Padding(

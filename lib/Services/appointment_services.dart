@@ -4,6 +4,28 @@ import 'package:iservice_application/Models/Request/appointment_model.dart';
 import 'package:iservice_application/Models/appointment.dart';
 
 class AppointmentServices {
+  Future<List<Appointment>> get(int id) async {
+    print('oi');
+
+    var url = Uri.parse('http://10.0.2.2:5120/Appointment');
+    var response = await http.get(
+      url,
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      List jsonResponse = jsonDecode(response.body) as List;
+      print(jsonResponse);
+      return jsonResponse
+          .map((appointmentJson) => Appointment.fromJson(appointmentJson))
+          .toList();
+    } else {
+      var jsonResponse = jsonDecode(response.body);
+      var errorMessage = jsonResponse['message'] ?? 'Erro desconhecido';
+      throw Exception(errorMessage);
+    }
+  }
+
   Future<Appointment> getById(int id) async {
     print('Request Data: ${jsonEncode(id)}');
 

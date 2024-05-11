@@ -3,19 +3,22 @@ import 'package:intl/intl.dart';
 import 'package:iservice_application/Models/Request/client_profile_model.dart';
 import 'package:iservice_application/Models/User/ClientProfile.dart';
 import 'package:iservice_application/Models/user_info.dart';
+import 'package:iservice_application/Services/Utils/textFieldUtils.dart';
+import 'package:iservice_application/Services/user_services.dart';
 import 'package:iservice_application/Views/Address/address-register.dart';
 
-class PersonalRegisterClient extends StatefulWidget {
+class EditPersonalClient extends StatefulWidget {
   final UserInfo userInfo;
 
-  const PersonalRegisterClient({required this.userInfo, Key? key})
+  const EditPersonalClient({required this.userInfo, Key? key})
       : super(key: key);
 
   @override
-  State<PersonalRegisterClient> createState() => _PersonalRegisterClientState();
+  State<EditPersonalClient> createState() => _EditPersonalClientState();
 }
 
-class _PersonalRegisterClientState extends State<PersonalRegisterClient> {
+class _EditPersonalClientState extends State<EditPersonalClient> {
+  TextEditingController nameController = TextEditingController();
   TextEditingController cpfController = TextEditingController();
   TextEditingController birthController = TextEditingController();
   TextEditingController celController = TextEditingController();
@@ -41,7 +44,7 @@ class _PersonalRegisterClientState extends State<PersonalRegisterClient> {
   @override
   void initState() {
     super.initState();
-
+    fetchData();
     cpfController.addListener(atualizarEstadoCampos);
     birthController.addListener(atualizarEstadoCampos);
     celController.addListener(atualizarEstadoCampos);
@@ -51,6 +54,19 @@ class _PersonalRegisterClientState extends State<PersonalRegisterClient> {
     setState(() {
       mensagemErro = mensagem;
     });
+  }
+
+  Future<void> fetchData() async {
+    UserServices()
+        .getUserInfoByUserId(widget.userInfo.user.userId)
+        .then((UserInfo userInfo) {
+      print(userInfo.clientProfile);
+      nameController.text = userInfo.user.name ?? '';
+      cpfController.text = userInfo.establishmentProfile!.cnpj ?? '';
+      birthController.text =
+          userInfo.establishmentProfile!.commercialName ?? '';
+      celController.text = userInfo.establishmentProfile!.commercialPhone ?? '';
+    }).catchError((e) {});
   }
 
   void atualizarEstadoCampos() {
@@ -112,6 +128,11 @@ class _PersonalRegisterClientState extends State<PersonalRegisterClient> {
                     ],
                   ),
                 ),
+                Utils.buildTextField(
+                  controller: nameController,
+                  hintText: 'Nome',
+                  prefixIcon: Icons.account_circle_rounded,
+                ),
                 TextFormField(
                   controller: cpfController,
                   style: const TextStyle(
@@ -131,40 +152,6 @@ class _PersonalRegisterClientState extends State<PersonalRegisterClient> {
                       ).createShader(bounds),
                       child: const Icon(
                         Icons.badge_outlined,
-                        color: Colors.blue,
-                      ),
-                    ),
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.5),
-                    ),
-                    focusedBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue, width: 2.5),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  controller: birthController,
-                  onTap: () => _selecionarData(context),
-                  style: const TextStyle(
-                    color: Colors.black,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: 'Selecione a data de nascimento',
-                    hintStyle: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w100,
-                    ),
-                    prefixIcon: ShaderMask(
-                      shaderCallback: (bounds) => const LinearGradient(
-                        colors: [Colors.blue, Colors.blue],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ).createShader(bounds),
-                      child: const Icon(
-                        Icons.calendar_today,
                         color: Colors.blue,
                       ),
                     ),
