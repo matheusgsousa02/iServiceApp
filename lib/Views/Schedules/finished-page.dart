@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:iservice_application/Models/appointment.dart';
 import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Services/appointment_services.dart';
+import 'package:iservice_application/Views/Feedback/review-page.dart';
 
 class FinishedPage extends StatefulWidget {
   final UserInfo userInfo;
@@ -64,7 +65,8 @@ class _FinishedPageState extends State<FinishedPage> {
                   itemCount: appointmentsList.length,
                   itemBuilder: (context, index) {
                     return SchedulesCard(
-                        appointmentsList: appointmentsList[index]);
+                        appointmentsList: appointmentsList[index],
+                        userInfo: widget.userInfo);
                   },
                 ),
               ),
@@ -78,8 +80,10 @@ class _FinishedPageState extends State<FinishedPage> {
 
 class SchedulesCard extends StatelessWidget {
   final Map<String, dynamic> appointmentsList;
+  final UserInfo userInfo;
 
-  const SchedulesCard({Key? key, required this.appointmentsList})
+  const SchedulesCard(
+      {Key? key, required this.appointmentsList, required this.userInfo})
       : super(key: key);
 
   @override
@@ -92,11 +96,11 @@ class SchedulesCard extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 5),
           decoration: BoxDecoration(
-            color: Color.fromARGB(244, 239, 237, 237),
+            color: Colors.white,
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
-                color: Colors.black26,
+                color: Colors.black12,
                 blurRadius: 4,
                 spreadRadius: 2,
               ),
@@ -153,21 +157,28 @@ class SchedulesCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ReviewPage(userInfo: userInfo)),
+                        );
+                      },
                       child: Container(
                         width: 340,
                         padding: EdgeInsets.symmetric(vertical: 12),
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(99, 176, 178, 180),
+                          color: Color(0xFF2864ff),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Center(
                           child: Text(
-                            "Cancelar",
+                            "Avaliar",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
-                              color: Colors.black,
+                              color: Colors.white,
                             ),
                           ),
                         ),

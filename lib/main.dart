@@ -15,7 +15,7 @@ import 'package:iservice_application/Views/Client_Search/Establishment_Catalog/e
 import 'package:iservice_application/Views/Client_Search/establishment-category.dart';
 import 'package:iservice_application/Views/Feedback/review-list.dart';
 import 'package:iservice_application/Views/Feedback/review-page.dart';
-import 'package:iservice_application/Views/Schedules/appointment-page.dart';
+import 'package:iservice_application/Views/Establishment_Services/appointment-page.dart';
 import 'package:iservice_application/Views/Establishment_Services/service-page.dart';
 import 'package:iservice_application/Views/Feedback/feedback-page.dart';
 import 'package:iservice_application/Views/Login/login-home-page.dart';

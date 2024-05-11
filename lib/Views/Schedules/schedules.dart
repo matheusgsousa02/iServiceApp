@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iservice_application/Models/user_info.dart';
-import 'package:iservice_application/Views/Schedules/canceled-page.dart';
 import 'package:iservice_application/Views/Schedules/finished-page.dart';
+import 'package:iservice_application/Views/Schedules/canceled-page.dart';
 import 'package:iservice_application/Views/Schedules/schedule-page.dart';
 import '../main-page-establishment.dart';
 
