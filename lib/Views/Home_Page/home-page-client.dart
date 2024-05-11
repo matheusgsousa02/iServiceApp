@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iservice_application/Models/servicos.dart';
 import 'package:iservice_application/Models/user_info.dart';
-import 'package:iservice_application/Views/Establishment_Services/schedules.dart';
+import 'package:iservice_application/Views/Schedules/schedules.dart';
 
 class HomePageClient extends StatefulWidget {
   final UserInfo userInfo;

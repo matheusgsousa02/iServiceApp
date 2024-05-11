@@ -5,8 +5,6 @@ import 'package:iservice_application/Models/appointment.dart';
 
 class AppointmentServices {
   Future<List<Appointment>> get(int id) async {
-    print('oi');
-
     var url = Uri.parse('http://10.0.2.2:5120/Appointment');
     var response = await http.get(
       url,

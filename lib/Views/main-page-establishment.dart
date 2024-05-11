@@ -3,7 +3,7 @@ import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Views/Establishment_MyEstablishment/catalog.dart';
 import 'package:iservice_application/Views/Establishment_MyEstablishment/my-establishment.dart';
 import 'package:iservice_application/Views/Establishment_Profile/establishment-profile.dart';
-import 'package:iservice_application/Views/Establishment_Services/schedules.dart';
+import 'package:iservice_application/Views/Schedules/schedules.dart';
 import 'package:iservice_application/Views/Home_Page/home-page-establishment.dart';
 
 class MainPageEstablishment extends StatefulWidget {

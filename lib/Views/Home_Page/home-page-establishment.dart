@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Services/Utils/barChart.dart';
 import 'package:iservice_application/Views/Establishment_MyEstablishment/catalog.dart';
-import 'package:iservice_application/Views/Establishment_Services/schedules.dart';
+import 'package:iservice_application/Views/Schedules/schedules.dart';
 
 class HomePageEstablishment extends StatefulWidget {
   final UserInfo userInfo;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Views/Client_Profile/client-profile.dart';
 import 'package:iservice_application/Views/Client_Search/client-search.dart';
-import 'package:iservice_application/Views/Establishment_Services/schedules.dart';
+import 'package:iservice_application/Views/Schedules/schedules.dart';
 import 'package:iservice_application/Views/Home_Page/home-page-client.dart';
 
 class MainPageClient extends StatefulWidget {
