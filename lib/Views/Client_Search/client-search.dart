@@ -190,7 +190,9 @@ class _SearchPageState extends State<SearchPage> {
                 } else if (snapshot.hasError) {
                   return Center(child: Text("Erro ao carregar dados"));
                 } else {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(
+                      child:
+                          CircularProgressIndicator(color: Color(0xFF2864ff)));
                 }
               },
             ),

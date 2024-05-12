@@ -4,6 +4,8 @@ import 'package:iservice_application/Views/Establishment_MyEstablishment/catalog
 import 'package:iservice_application/Views/Address/edit-address.dart';
 import 'package:iservice_application/Views/Establishment_MyEstablishment/edit-personal-register.dart';
 import 'package:iservice_application/Views/Establishment_MyEstablishment/register-time.dart';
+import 'package:iservice_application/Views/Special_Day/register-specialday.dart';
+import 'package:iservice_application/Views/Special_Day/schedule-page.dart';
 
 class MyEstablishment extends StatefulWidget {
   final UserInfo userInfo;
@@ -140,6 +142,51 @@ class _MyEstablishmentState extends State<MyEstablishment> {
                       const Expanded(
                         child: Text(
                           "Horários",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      const Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.black,
+                        size: 20,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 7),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    padding: const EdgeInsets.all(20),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              SpecialDayPage(userInfo: widget.userInfo)),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/horarios.png',
+                        width: 27,
+                        height: 27,
+                      ),
+                      const SizedBox(width: 17),
+                      const Expanded(
+                        child: Text(
+                          "Horários em Dia Especial",
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,

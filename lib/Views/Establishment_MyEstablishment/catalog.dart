@@ -103,7 +103,9 @@ class _CatalogState extends State<Catalog> {
               future: _servicesFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(
+                      child:
+                          CircularProgressIndicator(color: Color(0xFF2864ff)));
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Erro: ${snapshot.error}'));
                 } else if (snapshot.hasData) {
