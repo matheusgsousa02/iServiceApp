@@ -3,16 +3,17 @@ import 'package:intl/intl.dart';
 import 'package:iservice_application/Models/user_info.dart';
 import 'package:iservice_application/Views/Special_Day/register-specialday.dart';
 
-class SpecialDayPage extends StatefulWidget {
+class ServiceCategoryPage extends StatefulWidget {
   final UserInfo userInfo;
 
-  const SpecialDayPage({required this.userInfo, Key? key}) : super(key: key);
+  const ServiceCategoryPage({required this.userInfo, Key? key})
+      : super(key: key);
 
   @override
-  State<SpecialDayPage> createState() => _SpecialDayPageState();
+  State<ServiceCategoryPage> createState() => _ServiceCategoryPageState();
 }
 
-class _SpecialDayPageState extends State<SpecialDayPage> {
+class _ServiceCategoryPageState extends State<ServiceCategoryPage> {
   List<Map<String, String>> specialDaysList = [];
 
   @override
@@ -22,21 +23,13 @@ class _SpecialDayPageState extends State<SpecialDayPage> {
   }
 
   void _loadSpecialDays() {
-    // Dados falsos para simular dias especiais
+    // Dados falsos para simular
     specialDaysList = [
       {
-        'date': '27/05/2024',
-        'operatingStart': '08:00',
-        'operatingEnd': '18:00',
-        'breakStart': '12:00',
-        'breakEnd': '13:00',
+        'category': 'Corte de Cabelo',
       },
       {
-        'date': '28/05/2024',
-        'operatingStart': '09:00',
-        'operatingEnd': '17:00',
-        'breakStart': '12:30',
-        'breakEnd': '13:30',
+        'category': 'Barba',
       },
     ];
   }
@@ -50,7 +43,7 @@ class _SpecialDayPageState extends State<SpecialDayPage> {
           child: Padding(
             padding: const EdgeInsets.only(right: 55.0),
             child: Text(
-              "Horário em Dia Especial",
+              "Categorias de Serviço",
               style: TextStyle(
                 color: Colors.grey[700],
                 fontSize: 20,
@@ -92,7 +85,7 @@ class _SpecialDayPageState extends State<SpecialDayPage> {
                 ),
                 child: Center(
                   child: Text(
-                    "Adicionar um novo horário especial",
+                    "Adicionar uma categoria",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
@@ -143,94 +136,36 @@ class SchedulesCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              specialDay['date']!,
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF2864ff)),
-            ),
-            SizedBox(height: 10),
-            Text('Horário de funcionamento',
-                style: TextStyle(fontSize: 18, color: Colors.black54)),
-            SizedBox(height: 4),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(specialDay['operatingStart']!,
-                    style: TextStyle(fontSize: 16, color: Colors.black)),
-                Text(
-                  " - ",
-                  style: TextStyle(fontSize: 16, color: Colors.black),
-                ),
-                Text(specialDay['operatingEnd']!,
-                    style: TextStyle(fontSize: 16, color: Colors.black)),
-              ],
-            ),
-            SizedBox(height: 10),
-            Text('Horário de intervalo',
-                style: TextStyle(fontSize: 18, color: Colors.black54)),
-            SizedBox(height: 4),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(specialDay['breakStart']!,
-                    style: TextStyle(fontSize: 16, color: Colors.black)),
-                Text(
-                  " - ",
-                  style: TextStyle(fontSize: 16, color: Colors.black),
-                ),
-                Text(specialDay['breakEnd']!,
-                    style: TextStyle(fontSize: 16, color: Colors.black)),
-              ],
-            ),
-            SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                InkWell(
-                  onTap: () {
-                    // Ação para Editar
-                  },
-                  child: Container(
-                    width: 155,
-                    padding: EdgeInsets.symmetric(vertical: 7),
-                    decoration: BoxDecoration(
-                      color: Color(0xFF2864ff),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Editar",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
+                Text(
+                  specialDay['category']!,
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                SizedBox(
+                  width: 15,
                 ),
                 InkWell(
                   onTap: () {
                     // Ação para Remover
                   },
                   child: Container(
-                    width: 155,
-                    padding: EdgeInsets.symmetric(vertical: 7),
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(100, 216, 218, 221),
-                      borderRadius: BorderRadius.circular(10),
+                      color: Color.fromARGB(
+                          100, 216, 218, 221), // Cor de fundo do botão
+                      shape: BoxShape.circle, // Forma circular
                     ),
-                    child: Center(
-                      child: Text(
-                        "Remover",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                      ),
+                    child: IconButton(
+                      icon: Icon(Icons.delete), // Ícone de lixeira
+                      color: Colors.black, // Cor do ícone
+                      onPressed: () {
+                        // Ação ao clicar no botão
+                        print('Botão lixeira pressionado');
+                      },
                     ),
                   ),
                 ),

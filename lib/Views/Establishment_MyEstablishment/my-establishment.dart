@@ -5,7 +5,7 @@ import 'package:iservice_application/Views/Address/edit-address.dart';
 import 'package:iservice_application/Views/Establishment_MyEstablishment/edit-personal-register.dart';
 import 'package:iservice_application/Views/Establishment_MyEstablishment/register-time.dart';
 import 'package:iservice_application/Views/Special_Day/register-specialday.dart';
-import 'package:iservice_application/Views/Special_Day/schedule-page.dart';
+import 'package:iservice_application/Views/Special_Day/specialday-page.dart';
 
 class MyEstablishment extends StatefulWidget {
   final UserInfo userInfo;
