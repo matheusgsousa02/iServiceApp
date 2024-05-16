@@ -90,13 +90,21 @@ class _AppointmentPageState extends State<AppointmentPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
+                "Agendamento de Horário e Serviços",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF2864ff),
+                ),
+              ),
+              Text(
                 "Selecione o dia da semana e o horário do atendimento",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 15),
               Container(
                 margin: EdgeInsets.only(top: 10),
                 decoration: BoxDecoration(

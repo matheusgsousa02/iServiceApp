@@ -108,7 +108,7 @@ class MyApp extends StatelessWidget {
         ],
         title: 'iService',
         theme: ThemeData(),
-        home: ServiceCategoryPage(
+        home: ReviewPage(
           userInfo: userInfo,
         ));
   }

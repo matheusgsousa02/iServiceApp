@@ -17,7 +17,7 @@ class SearchPage extends StatefulWidget {
   ];
   static final List<IconData> icons = [
     Icons.content_cut,
-    Icons.shopping_cart,
+    Icons.content_cut,
     Icons.local_hospital,
     Icons.restaurant_menu
   ];

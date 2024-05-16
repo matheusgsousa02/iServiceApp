@@ -63,7 +63,7 @@ class _ReviewPageState extends State<ReviewPage> {
                         )
                       ],
                     ),
-                    SizedBox(height: 55),
+                    SizedBox(height: 30),
                     CircleAvatar(
                       radius: 80,
                       backgroundImage:
